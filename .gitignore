@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Node / Next
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env — never commit real keys
+.env
+.env.local
+.env*.local

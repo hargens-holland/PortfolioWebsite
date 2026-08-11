@@ -50,6 +50,20 @@ data "aws_iam_policy_document" "github_assume_role" {
 
     # The important line. Only the main branch of this one repo can assume the
     # role — not a fork, not a pull request, not another repo in your account.
+    #
+    # The numbers are GitHub's immutable IDs: 72099379 is the user ID for
+    # hargens-holland, and 1330104288 is the repo ID for PortfolioWebsite.
+    # GitHub emits this ID-bearing subject claim rather than the name-based
+    # form because names can be transferred or re-registered by someone else,
+    # while numeric IDs are never reused — so matching on the IDs can't be
+    # hijacked by whoever claims the name next.
+    #
+    # Hardcoded rather than built from var.github_repo because the IDs belong
+    # to this specific repo instance. Delete and recreate the repo and they
+    # change, and this line has to be updated by hand.
+    #
+    # If it's wrong, sts:AssumeRoleWithWebIdentity fails with "Not
+    # authorized" and no indication of which condition mismatched.
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"

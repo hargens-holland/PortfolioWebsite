@@ -1,0 +1,28 @@
+# Copy to terraform.tfvars and edit. terraform.tfvars is gitignored.
+#
+#   cp terraform.tfvars.example terraform.tfvars
+
+# Must be globally unique across all of S3 — add a suffix if it's taken.
+project_name = "hollandhargens-portfolio"
+
+# owner/repo. Only this repo's main branch will be able to deploy.
+github_repo = "hargens-holland/PortfolioWebsite"
+
+# ---------------------------------------------------------------------------
+# Domain — leave commented out for the first apply.
+#
+# Stand the site up on the CloudFront URL first and confirm it works. Then buy
+# the domain, uncomment, and run apply again. Splitting it means that if DNS
+# misbehaves you already know the site itself is fine.
+# ---------------------------------------------------------------------------
+
+# domain_name = "hollandhargens.com"
+
+# Only if a hosted zone for that domain already exists — which it will if you
+# registered through Route 53. Leave commented and Terraform creates one and
+# prints the nameservers to set at your registrar.
+# route53_zone_id = "Z0123456789ABCDEFGHIJ"
+
+# Set false if this AWS account already has the GitHub OIDC provider. AWS
+# allows only one per account, so a second apply elsewhere would collide.
+# create_oidc_provider = true

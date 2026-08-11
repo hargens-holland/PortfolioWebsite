@@ -8,13 +8,22 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-
 # Env — never commit real keys
 .env
 .env.local
 .env*.local
+
+# Terraform
+# .terraform/ is downloaded provider binaries; state records what exists in AWS
+# and can contain sensitive values. .terraform.lock.hcl IS committed on purpose
+# so everyone resolves the same provider versions.
+infra/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Your real values; terraform.tfvars.example is the committed template.
+terraform.tfvars
+*.auto.tfvars

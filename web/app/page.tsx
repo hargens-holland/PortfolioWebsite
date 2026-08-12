@@ -66,7 +66,7 @@ export default function HomePage() {
               <span className="eyebrow__pad">U1</span>
               Selected work
             </div>
-            <h2 className="h2">Projects I&apos;d happily be quizzed on</h2>
+            <h2 className="h2">What I&apos;ve built</h2>
           </div>
           <div className="work__count">
             {String(PROJECTS.length).padStart(2, "0")} modules · click any card
@@ -131,9 +131,9 @@ export default function HomePage() {
       <Reveal className="section section--panel" id="skills" data-section="skills">
         <div className="eyebrow">
           <span className="eyebrow__pad">U3</span>
-          Toolkit
+          Skills
         </div>
-        <h2 className="h2">What I reach for</h2>
+        <h2 className="h2">Toolkit</h2>
 
         <div className="toolkit">
           {SKILLS.map((group) => (

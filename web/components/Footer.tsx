@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <div className="footer__credit">
-        © {SITE.copyrightYear} {SITE.name} · {SITE.revision} · hand-routed
+        © {SITE.copyrightYear} {SITE.name} · {SITE.revision}
       </div>
       <div className="footer__links">
         <a className="ul" href={LINKS.github} target="_blank" rel="noreferrer">

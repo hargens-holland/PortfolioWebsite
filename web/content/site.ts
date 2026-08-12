@@ -11,7 +11,7 @@ export const SITE = {
   /** Update once the custom domain is live — drives canonical and OG tags. */
   url: "https://hollandhargens.com",
   location: "Newton, MA",
-  email: "hshargens@verizon.net",
+  email: "hollandhargens@gmail.com",
   revision: "rev A",
   copyrightYear: "2026",
 } as const;
@@ -27,7 +27,7 @@ export const HERO = {
   statusLine: "[ OK ] bring-up complete",
   badge: "Open to new grad roles · 2026",
   intro:
-    ", a computer engineering grad who never picked a layer — FPGA bring-up and bare-metal firmware on one end, ML pipelines and LLM-backed services on the other.",
+    ", a computer engineering grad. FPGA bring-up and bare-metal firmware on one end, ML pipelines and LLM-backed services on the other.",
   roles: ["embedded systems.", "ML pipelines.", "backend services.", "LLM tooling."],
   chips: ["Embedded C / C++", "Python · PyTorch", "RTL & FPGA", "Newton, MA"],
   photoCaption: "Newton, MA — 2026",
@@ -81,18 +81,18 @@ export const SKILLS = [
 ];
 
 export const ABOUT = {
-  heading: "I couldn't pick a layer, so I learned all of them",
+  heading: "Hardware and software",
   paragraphs: [
-    "I studied computer engineering because I didn't want to choose between the hardware and the software. My favorite work happens where the abstraction leaks — a DPU that won't meet timing, a model that has to fit the resources you actually have, a service that has to stay up while you rewrite it.",
-    "Right now I'm looking for a new grad role in embedded, ML, or backend engineering — somewhere I can own something end to end and read a lot of other people's code.",
-    "Outside of that: golf, and a dog named Beau who is thoroughly unimpressed by all of this.",
+    "I studied computer engineering because I didn't want to choose between hardware and software. The problems I like are the ones that sit between them — a DPU that won't meet timing, a model that has to fit the resources you actually have, a service that has to stay up while you rewrite it.",
+    "Right now I'm looking for a new grad role in embedded, ML, or backend engineering — somewhere that will challenge me and put me around people I can learn from.",
+    "Outside of that: golf, and a dog named Beau.",
   ],
 } as const;
 
 export const CONTACT = {
-  heading: "Let's talk.",
+  heading: "Get in touch",
   blurb:
-    "Recruiters, engineers, and people with a weird hardware problem all welcome. I reply within a day.",
+    "Recruiters, engineers, and anyone with something interesting to build — reach out.",
 } as const;
 
 export const BOOT_LINES = [

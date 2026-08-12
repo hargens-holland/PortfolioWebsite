@@ -42,9 +42,10 @@ web/
 │   └── site.ts                 ← name, links, jobs, education, skills, about
 └── public/assets/              resume.pdf, headshots, screenshots
 
-design/                         Archived Claude Design export the layout came from.
+design/                         Archived design export the layout came from.
                                 Reference only; nothing imports it. Safe to delete.
-site-notes.md                   Original planning notes.
+infra/                          Terraform for S3 + CloudFront + the deploy role.
+                                See infra/README.md.
 amplify.yml                     Build spec, only used if you deploy via AWS Amplify.
 ```
 

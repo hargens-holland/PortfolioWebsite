@@ -47,7 +47,7 @@ export const PROJECTS: Project[] = [
       "Integrated the DPUCZDX8G IP in Vivado on an AUP-ZU3 (ZynqMP) board targeting pynq-dpu inference.",
     body: [
       "Integrated the DPUCZDX8G IP in Vivado on an AUP-ZU3 (ZynqMP) board targeting pynq-dpu inference.",
-      "The ZU3 doesn't really have room for it, so the work was mostly negotiation: scaled the DPU down to a B512 configuration to fit, and dropped the PL1 clock to 200 MHz to close timing.",
+      "The ZU3 doesn't have the resources for a full-size DPU, so it came down to tradeoffs: scaled down to a B512 configuration to fit, and dropped the PL1 clock to 200 MHz to close timing.",
     ],
     tags: ["Vivado", "ZynqMP", "PYNQ", "Python"],
     links: [
@@ -61,9 +61,9 @@ export const PROJECTS: Project[] = [
     year: "2026",
     role: "Solo · ML + deployment",
     summary:
-      "Trained a seizure classifier on EEG recordings in PyTorch, then did the part most side projects skip: FastAPI inference endpoint, Docker container, README someone else can follow.",
+      "Trained a seizure classifier on EEG recordings in PyTorch, then packaged it for actual use: FastAPI inference endpoint, Docker container, documented setup.",
     body: [
-      "Trained a seizure classifier on EEG recordings in PyTorch, then did the part most side projects skip: FastAPI inference endpoint, Docker container, README someone else can follow.",
+      "Trained a seizure classifier on EEG recordings in PyTorch, then packaged it for actual use: FastAPI inference endpoint, Docker container, documented setup.",
     ],
     tags: ["PyTorch", "FastAPI", "Docker", "Python"],
     links: [

@@ -1,7 +1,18 @@
-import { ABOUT, CONTACT, EDUCATION, HERO, LINKS, SITE, SKILLS, WORK } from "@/content/site";
+import {
+  ABOUT,
+  CONTACT,
+  EDUCATION,
+  HERO,
+  LINKS,
+  RESUME_FILENAME,
+  SITE,
+  SKILLS,
+  WORK,
+} from "@/content/site";
 import { PROJECTS, featuredProject, otherProjects } from "@/content/projects";
 import { FeaturedCard, ProjectCard } from "@/components/ProjectCard";
 import { RoleRotator } from "@/components/RoleRotator";
+import { SkillChip } from "@/components/SkillChip";
 import { Reveal } from "@/components/Reveal";
 import { Photo } from "@/components/Photo";
 
@@ -34,7 +45,7 @@ export default function HomePage() {
               <a className="btn btn--primary" href="#work">
                 See selected work →
               </a>
-              <a className="btn btn--ghost" href={LINKS.resume} download>
+              <a className="btn btn--ghost" href={LINKS.resume} download={RESUME_FILENAME}>
                 Download résumé (PDF)
               </a>
             </div>
@@ -141,10 +152,7 @@ export default function HomePage() {
               <div className="toolgroup__title">{group.title}</div>
               <div className="chips">
                 {group.items.map((item) => (
-                  <span className="chip" key={item}>
-                    <i className="chip__mark" />
-                    {item}
-                  </span>
+                  <SkillChip key={item.name} skill={item} />
                 ))}
               </div>
             </div>
@@ -190,7 +198,11 @@ export default function HomePage() {
             <a className="contact__btn contact__btn--primary" href={`mailto:${SITE.email}`}>
               {SITE.email} <span>→</span>
             </a>
-            <a className="contact__btn contact__btn--ghost" href={LINKS.resume} download>
+            <a
+              className="contact__btn contact__btn--ghost"
+              href={LINKS.resume}
+              download={RESUME_FILENAME}
+            >
               Résumé — PDF <span>↓</span>
             </a>
             <a

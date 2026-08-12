@@ -23,6 +23,12 @@ export const LINKS = {
   resume: "/assets/resume.pdf",
 } as const;
 
+/**
+ * What the résumé is *saved as* — the file on disk stays resume.pdf, but a
+ * recruiter's Downloads folder already has a dozen of those.
+ */
+export const RESUME_FILENAME = "Holland-Hargens-Resume.pdf";
+
 export const HERO = {
   statusLine: "[ OK ] bring-up complete",
   badge: "Open to new grad roles · 2026",
@@ -65,18 +71,116 @@ export const EDUCATION: Role = {
     "3.6 GPA, Dean's Honor List. ECE 554 capstone with the Flex-PGA group, building a fitness tracker. IEEE member.",
 };
 
-export const SKILLS = [
+export type Skill = {
+  name: string;
+  /**
+   * Two or three sentences on where you've actually used it. Omit it and the
+   * chip renders as a plain label with no arrow — so you can fill these in a
+   * few at a time instead of all at once.
+   */
+  note?: string;
+  /** Slugs from content/projects.ts. Rendered as links at the bottom of the note. */
+  projects?: string[];
+};
+
+export type SkillGroup = {
+  title: string;
+  items: Skill[];
+};
+
+export const SKILLS: SkillGroup[] = [
   {
     title: "Embedded & hardware",
-    items: ["C / C++", "SystemVerilog", "PSoC6", "Cortex-M4", "Vivado", "ZynqMP"],
+    items: [
+      {
+        name: "C / C++",
+        note: "TODO — which firmware did you write in C, and on what hardware? Two or three sentences.",
+      },
+      {
+        name: "SystemVerilog",
+        note: "TODO — the ECE 554 capstone, or other RTL coursework. What did you actually design and verify?",
+      },
+      {
+        name: "PSoC6",
+        note: "TODO — which project used the PSoC6, and what was it doing? Peripherals, sensors, power?",
+      },
+      {
+        name: "Cortex-M4",
+        note: "TODO — where you worked on an M4 core, and at what level: bare-metal, RTOS, driver work?",
+      },
+      {
+        name: "Vivado",
+        note: "Block design and IP integration for the DPU bring-up on an AUP-ZU3. Most of the work came after the first successful build — reading timing reports and adjusting the configuration until the design closed.",
+        projects: ["dpu-bringup"],
+      },
+      {
+        name: "ZynqMP",
+        note: "The AUP-ZU3 board my DPU work targets. Getting the processing system and the programmable logic to cooperate — clocking, the AXI interfaces, and booting into PYNQ — was most of that project.",
+        projects: ["dpu-bringup"],
+      },
+    ],
   },
   {
     title: "ML & AI",
-    items: ["Python", "PyTorch", "TensorFlow", "MLflow", "LLM integration & eval"],
+    items: [
+      {
+        name: "Python",
+        note: "My default for anything data or ML: the preprocessing pipeline at Veridis, model training in both PyTorch and TensorFlow, and the FastAPI services I've written since.",
+        projects: ["eeg-seizure-detection"],
+      },
+      {
+        name: "PyTorch",
+        note: "Trained regression and classification models on 23-channel time-series sensor data at Veridis, and the seizure classifier in my EEG project.",
+        projects: ["eeg-seizure-detection"],
+      },
+      {
+        name: "TensorFlow",
+        note: "Used alongside PyTorch at Veridis to compare architectures against the same preprocessed sensor data.",
+      },
+      {
+        name: "MLflow",
+        note: "Tracked 20+ training configurations at Veridis — parameters, metrics, and artifacts — so runs could be compared later rather than remembered.",
+      },
+      {
+        name: "LLM integration & eval",
+        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand.",
+      },
+    ],
   },
   {
     title: "Software & tooling",
-    items: ["TypeScript", "Next.js", "FastAPI", "PostgreSQL", "Docker", "AWS", "GitHub Actions"],
+    items: [
+      {
+        name: "TypeScript",
+        note: "This site, end to end. The projects and skills you're reading are typed data in one folder, so adding either one is a data change rather than a template change.",
+      },
+      {
+        name: "Next.js",
+        note: "This site is a Next.js app exported to static HTML, which is why it can sit in an S3 bucket behind a CDN with no server to keep running.",
+      },
+      {
+        name: "FastAPI",
+        note: "The inference endpoint for my EEG classifier, and service work at Radius Hire.",
+        projects: ["eeg-seizure-detection"],
+      },
+      {
+        name: "PostgreSQL",
+        note: "TODO — schema or query work at Radius Hire, or wherever you've used it. What was the data?",
+      },
+      {
+        name: "Docker",
+        note: "Containerized the EEG inference service, and the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
+        projects: ["eeg-seizure-detection"],
+      },
+      {
+        name: "AWS",
+        note: "Containerized services at Radius Hire, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
+      },
+      {
+        name: "GitHub Actions",
+        note: "The deploy pipeline for this site: lint, typecheck, build, sync to S3, then invalidate the CloudFront cache. It authenticates to AWS over OIDC, so there are no stored access keys.",
+      },
+    ],
   },
 ];
 

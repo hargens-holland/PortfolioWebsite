@@ -68,7 +68,7 @@ export const EDUCATION: Role = {
   role: "B.S. Computer Engineering",
   org: "UW–Madison",
   detail:
-    "3.6 GPA, Dean's Honor List every semester. ECE 554 capstone: an on-device ML workout tracker on a Xilinx Zynq. IEEE student member, with embedded sensor work on the chapter's weather-balloon project.",
+    "3.6 GPA, Dean's Honor List every semester. ECE 554 capstone: Flex-PGA, on-device workout classification on a Zynq UltraScale+. IEEE student member, with embedded sensor work on the chapter's weather-balloon project.",
 };
 
 export type Skill = {
@@ -100,7 +100,7 @@ export const SKILLS: SkillGroup[] = [
       {
         name: "Verilog / SystemVerilog",
         note: "The capstone RTL on a Zynq: the PS↔PL interface that hands data between the ARM core and the FPGA fabric for on-device inference, validated end to end. Before that, Digital System Design and Computer Architecture coursework.",
-        projects: ["workout-detection-fpga"],
+        projects: ["flex-pga"],
       },
       {
         name: "PSoC6",
@@ -114,14 +114,26 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Vivado",
-        note: "Block design and IP integration for the DPU bring-up on an AUP-ZU3. Most of the work came after the first successful build — reading timing reports and adjusting the configuration until the design closed.",
-        projects: ["dpu-bringup"],
+        note: "Block design and IP integration on the AUP-ZU3 for the capstone: the DPU build that routed and closed timing but consumed the whole device, and the custom MLP peripheral that replaced it. Most of the work is reading the reports after a build, not the build itself.",
+        projects: ["flex-pga"],
       },
       {
         name: "ZynqMP",
-        note: "The AUP-ZU3 board my DPU work targets. Getting the processing system and the programmable logic to cooperate — clocking, the AXI interfaces, and booting into PYNQ — was most of that project.",
-        projects: ["dpu-bringup"],
+        note: "The Zynq UltraScale+ XCZU3EG on the AUP-ZU3 board. Getting the processing system and the programmable logic to cooperate — clocking, the AXI interfaces, shared memory, and booting into PYNQ — was most of the capstone.",
+        projects: ["flex-pga"],
       },
+      {
+        name: "AXI4-Lite",
+        note: "The register interface between the ARM cores and the capstone's FPGA classifier: 34 keypoint values written in, a class read back. I documented the register map and fixed the PS/PL interface at the source level after the capstone.",
+        projects: ["flex-pga"],
+      },
+      {
+        name: "PYNQ",
+        note: "How the capstone's Python side talks to the fabric: loading the overlay, mapping the MLP peripheral's registers, and driving inference from the same script that runs the camera.",
+        projects: ["flex-pga"],
+      },
+      { name: "Altium PCB Design" },
+      { name: "RTOS" },
     ],
   },
   {
@@ -129,8 +141,8 @@ export const SKILLS: SkillGroup[] = [
     items: [
       {
         name: "Python",
-        note: "My default for anything data or ML: the preprocessing pipeline at Veridis, model training in both PyTorch and TensorFlow, and the FastAPI services I've written since.",
-        projects: ["eeg-seizure-detection"],
+        note: "My default for anything data or ML: the preprocessing pipeline at Veridis, model training in both PyTorch and TensorFlow, the OpenCV and NumPy camera pipeline on the capstone's ARM cores, and the FastAPI services I've written since.",
+        projects: ["eeg-seizure-detection", "flex-pga"],
       },
       {
         name: "PyTorch",
@@ -150,6 +162,22 @@ export const SKILLS: SkillGroup[] = [
         note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner's weekly regeneration runs on the Anthropic API.",
         projects: ["goal-planner"],
       },
+      {
+        name: "TensorFlow Lite",
+        note: "Google's pretrained MoveNet pose model, run through TFLite on the capstone's ARM cores to turn each camera frame into 17 keypoints before anything reaches the fabric.",
+        projects: ["flex-pga"],
+      },
+      {
+        name: "OpenCV",
+        note: "Camera capture and the on-screen overlay for the capstone: skeleton, class, confidence, rep count, and frame rate drawn onto the DisplayPort output.",
+        projects: ["flex-pga"],
+      },
+      {
+        name: "Vitis AI / VART",
+        note: "The runtime for the DPU integration attempt on the capstone. I built the camera → shared-memory → VART inference path on the processing-system side before the team moved pose estimation off the fabric.",
+        projects: ["flex-pga"],
+      },
+      { name: "Scikit-learn · Pandas" },
     ],
   },
   {
@@ -188,6 +216,13 @@ export const SKILLS: SkillGroup[] = [
         name: "GitHub Actions",
         note: "The deploy pipeline for this site: lint, typecheck, build, sync to S3, then invalidate the CloudFront cache. It authenticates to AWS over OIDC, so there are no stored access keys.",
       },
+      {
+        name: "Node.js / React",
+        note: "The Goal Planner's stack under Next.js, and the platform I worked in at Radius Hire.",
+        projects: ["goal-planner"],
+      },
+      { name: "Java · Spring Boot" },
+      { name: "Linux" },
     ],
   },
 ];

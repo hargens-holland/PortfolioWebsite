@@ -160,8 +160,7 @@ A project's backend belongs with the project, not here.
 
 Everything left needs a file or a URL only you have:
 
-- [ ] `headshot-hero.jpg` (4:5) and `headshot-about.jpg` (1:1) in `web/public/assets/` — the silhouette shows until then
 - [ ] LinkedIn URL → `LINKS.linkedin` in `content/site.ts`
-- [ ] Repo and demo URLs → each project's `links` in `content/projects.ts`
-- [ ] Project screenshots → each project's `image` (e.g. `"/assets/dpu-bringup.png"`)
-- [ ] The three projects added from the résumé (M3–M5) — read their `body` text and correct anything that's off, including the years
+- [ ] Repo and demo URLs for M2–M4 → each project's `links` in `content/projects.ts`
+- [ ] Screenshots for M2–M4 → each project's `image` (e.g. `"/assets/flex-pga-demo.jpg"`)
+- [ ] Final write-ups for M2–M4 — M1 is done; the others are drafted from the résumé and need your eyes, including the years

@@ -273,7 +273,7 @@ a:hover { color: #fff; }
   transition: transform .22s ease-out;
 }
 .shot--wide { aspect-ratio: 16 / 10; min-height: 0; }
-.shot--banner { aspect-ratio: 16 / 7; min-height: 0; }
+.shot--banner { aspect-ratio: 16 / 9; min-height: 0; }
 .card:hover .shot { transform: scale(1.03); }
 
 /* A real screenshot. */

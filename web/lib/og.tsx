@@ -46,7 +46,7 @@ export async function ogImage({
   subtitle,
   chips,
 }: {
-  /** Small mono line above the title, e.g. "M1 · dpu-bringup". */
+  /** Small mono line above the title, e.g. "M1 · flex-pga". */
   eyebrow: string;
   title: string;
   subtitle: string;

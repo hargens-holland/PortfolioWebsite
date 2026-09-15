@@ -31,7 +31,7 @@ export type Project = {
   body: string[];
   tags: string[];
   /**
-   * Screenshot path under /public, e.g. "/assets/dpu-bringup.png". Omit it
+   * Screenshot path under /public, e.g. "/assets/flex-pga-demo.jpg". Omit it
    * and the card draws a schematic-style placeholder instead; the project
    * page just skips the banner.
    */
@@ -41,21 +41,26 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
-    slug: "dpu-bringup",
-    name: "DPU Bring-Up on a ZU3",
+    slug: "flex-pga",
+    name: "Flex-PGA: On-Device Workout Classification",
     designator: "M1",
     year: "2026",
-    role: "Solo · FPGA + ML",
+    role: "Team of 5 · ECE 554 capstone",
     featured: true,
     summary:
-      "Brought up Xilinx's DPU inference engine on an AUP-ZU3 board: integrated the IP in Vivado, sized it to fit the part, and closed timing so PYNQ can run models on the programmable logic.",
+      "Real-time exercise recognition from a live camera on a Zynq UltraScale+ FPGA: pose estimation on the ARM cores, a quantized neural-network classifier in the fabric. No cloud, no GPU, no video leaving the board.",
     body: [
-      "The AUP-ZU3 is a small ZynqMP board, and Xilinx's DPUCZDX8G IP wasn't sized with it in mind. The goal was PYNQ-DPU inference running on the programmable logic: integrate the IP in Vivado, get the processing system and the fabric cooperating over AXI, and boot into PYNQ with a working overlay.",
-      "Most of the work came after the first successful build. The ZU3 doesn't have the resources for a full-size DPU, so it came down to tradeoffs: scaling down to a B512 configuration to fit, and dropping the PL1 clock to 200 MHz to close timing — reading the timing reports and adjusting the configuration until the design closed.",
+      "Consumer fitness apps either run vision on a phone CPU, where throttling and OS scheduling drop frames and miss reps, or stream video of your home to a server, adding latency and creating a permanent record of a private activity. Doing inference on-device fixes both: latency is bounded by hardware, and only 34 bytes of skeleton coordinates ever cross a bus.",
+      "A USB camera feeds frames to Google's pretrained MoveNet pose model running on the Zynq's ARM Cortex-A53 cores, reducing each frame to 17 body keypoints. The 34 (y, x) values are written over AXI-Lite into a custom FPGA peripheral that holds a 34→128→64→3 multilayer perceptron with int8 weights in on-chip BRAM. A hand-written SystemVerilog state machine drives a single DSP48E2 multiply-accumulate through the network and returns a class: push-up, squat, curl, or no pose. The ARM side overlays the skeleton, class, confidence, rep tally, and frame rate on a DisplayPort output.",
+      "Three decisions shaped the design. Using a pretrained pose model instead of an end-to-end CNN reduces a frame from hundreds of thousands of pixels to 34 numbers, which makes the classifier small enough to live in fabric. Int8 post-training quantization puts all 12,931 weights and biases in a single BRAM (1.6% of the device), maps each multiply onto one DSP48E2, and turns ReLU into a sign check on the accumulator. And one sequential MAC is enough: at about 1 ms per inference against a 100 ms frame budget, there was no reason to spend area on parallelism, so the classifier uses 0.28% of the device's DSPs and roughly 3% of its logic.",
+      "Pose estimation was originally designed to run in fabric on a Xilinx DPUCZDX8G. That build routed and closed timing (WNS +14.1 ns at 96.97 MHz), but occupied 99.98% of the CLBs and 95% of the DSPs, leaving no room for anything else and costing hours per synthesis iteration. The team moved pose estimation to the ARM cores and gave the fabric the workload it fit. The routed Vivado reports for both outcomes are preserved in the repo.",
+      "Results from the final report: 10 FPS throughput (target 15), 90% classification accuracy (target above 85%), 3 W power (target under 5 W), and 15% rep-counting error (target under 5%). The system was bounded by pose estimation on the ARM cores; the fabric classifier used about 1% of the per-frame budget.",
+      "My part: camera bring-up (a MIPI PCam that pivoted to USB/UVC) and the PS-side camera → shared-memory → DPU/VART inference pipeline used during the DPU integration attempt. After the capstone I authored the repository as a portfolio record: the README, architecture and register-map docs, a reconstructed MoveNet stage, and source-level fixes to the PS/PL interface.",
     ],
-    tags: ["Vivado", "ZynqMP", "PYNQ", "Python"],
+    tags: ["SystemVerilog", "Vivado", "AXI4-Lite", "Zynq UltraScale+", "PYNQ", "Python", "OpenCV", "TFLite", "Vitis AI"],
+    image: "/assets/flex-pga-demo.jpg",
     links: [
-      // { label: "Source", href: "https://github.com/hargens-holland/dpu-bringup" },
+      { label: "Source", href: "https://github.com/hargens-holland/WorkoutClassificationTracker" },
     ],
   },
   {
@@ -77,25 +82,9 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    slug: "workout-detection-fpga",
-    name: "On-Device Workout Detection",
-    designator: "M3",
-    year: "2026",
-    role: "ECE 554 capstone · Zynq + ML",
-    summary:
-      "A fitness tracker that classifies six exercises on a Xilinx Zynq — camera in, MLP inference in the fabric, result on an LCD — at ~90% accuracy and under 15 ms per inference.",
-    body: [
-      "The Flex-PGA senior capstone: a workout tracker that recognizes which exercise you're doing without sending anything off the board. A camera module feeds the signal pipeline, a multi-layer perceptron classifies it, and the result lands on an LCD.",
-      "My part was the boundary between the two halves of the Zynq: the PS↔PL interface that moves data between the ARM core and the FPGA fabric fast enough for inference to feel instant. The full path, acquisition to display, was validated end to end under real operating conditions rather than on a bench signal.",
-      "Trained on five test subjects across six exercises, the model holds around 90% accuracy with inference under 15 ms, fully on-device.",
-    ],
-    tags: ["Xilinx Zynq", "Verilog", "PS↔PL", "Python", "MLP"],
-    links: [],
-  },
-  {
     slug: "psoc6-blackjack",
     name: "PSoC6 Blackjack",
-    designator: "M4",
+    designator: "M3",
     year: "2025",
     role: "Solo · bare-metal C",
     summary:
@@ -111,7 +100,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "goal-planner",
     name: "Goal Planner",
-    designator: "M5",
+    designator: "M4",
     year: "2025",
     role: "Solo · full-stack + LLM",
     summary:

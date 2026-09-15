@@ -39,12 +39,12 @@ const PLACEHOLDER = {
     ),
   },
   landscape: {
-    viewBox: "0 0 400 225",
+    viewBox: "0 0 400 300",
     figure: (
       <>
-        <circle cx={200} cy={92} r={44} fill="#18271D" />
+        <circle cx={200} cy={124} r={52} fill="#18271D" />
         <path
-          d="M200 148c-48 0-82 28-87 74-1 8-1 3-1 3h176s0 5-1-3c-5-46-39-74-87-74z"
+          d="M200 190c-56 0-96 33-102 88-1 10-1 22-1 22h206s0-12-1-22c-6-55-46-88-102-88z"
           fill="#18271D"
         />
       </>
@@ -59,7 +59,7 @@ export function Photo({
 }: {
   src?: string;
   alt: string;
-  /** portrait 4:5, square 1:1, landscape 16:9 — the box takes that shape and the photo fills it. */
+  /** portrait 4:5, square 1:1, landscape 4:3 — the box takes that shape and the photo fills it. */
   shape: "portrait" | "square" | "landscape";
 }) {
   const [failed, setFailed] = useState(false);

@@ -110,16 +110,21 @@ export const PROJECTS: Project[] = [
     name: "Goal Planner",
     designator: "M4",
     year: "2025",
-    role: "Solo · full-stack + LLM",
+    role: "Solo · full-stack + AI agents",
     summary:
-      "A full-stack Next.js + MySQL planner that regenerates each week's plan from what you actually finished last week, using the Anthropic API. Dockerized and deployed on AWS.",
+      "Type a goal in plain language and three Claude agents turn it into a milestone roadmap, then schedule the work into the hours you're actually free. Structured outputs, typed fallbacks, 71 tests, CI.",
     body: [
-      "A goal-planning app built as a full-stack TypeScript project: Next.js on the front, Node.js and MySQL behind it, all containerized with Docker so staging and production run the same image.",
-      "The interesting part is the weekly loop. Instead of a static plan, the app pulls the previous week's task completions and asks the Anthropic API to generate the coming week around what actually got done, so the plan adapts to reality instead of repeating itself.",
-      "Deployed on AWS — EC2 for the app, RDS for MySQL, S3 for storage — from the same Docker image used in staging.",
+      "An AI planning app: a plain-language goal becomes a milestone roadmap, and the roadmap becomes scheduled daily tasks. Three Claude agents each have one job. The Architect builds the roadmap. Progress reviews your week and adjusts where you are. The Scheduler lays tasks onto a real calendar, across every active goal, in the time you actually have.",
+      "The engineering focus was making model calls behave like any other dependency. Every agent call is constrained to a zod schema through structured outputs, so the app never parses free text. Each agent has a deterministic fallback with typed failure reasons, and every plan is logged as model- or fallback-generated, so the app keeps working when the model doesn't.",
+      "Retries are separated by cause: the SDK handles network retries, while schema violations and truncated responses are retried explicitly with their own logic. Contract tests verify that the schemas and the fallbacks satisfy the same contract, so a fallback can never quietly drift from what the model is supposed to return. 71 tests run in CI, and the architecture is fully documented in the repo.",
     ],
-    tags: ["TypeScript", "Next.js", "Node.js", "MySQL", "Docker", "AWS", "Anthropic API"],
-    links: [],
+    tags: ["Anthropic SDK", "TypeScript", "Next.js 14", "Prisma", "PostgreSQL", "Zod"],
+    links: [
+      { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
+      // Deploy is pending. Add when it's up:
+      // { label: "Live demo", href: "https://…" },
+      // { label: "Architecture", href: "https://github.com/hargens-holland/GoalApp/blob/main/docs/ARCHITECTURE.md" },
+    ],
   },
 ];
 

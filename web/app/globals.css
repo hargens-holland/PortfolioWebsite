@@ -331,7 +331,10 @@ a:hover { color: #fff; }
 .project__title { margin-top: 14px; font-size: 52px; line-height: 1.04; font-weight: 700; letter-spacing: -.03em; color: var(--text-bright); }
 .project__meta { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--text-mute); }
 .project__frame { margin-top: 34px; border: 1px solid var(--line); }
-.project__body { max-width: 720px; margin-top: 34px; display: flex; flex-direction: column; gap: 16px; }
+/* Below the banner, everything sits in one centred reading column: the
+   banner and title span the page, the writeup doesn't need to. */
+.project__body, .project__tags, .project__links, .project__none { max-width: 760px; margin-left: auto; margin-right: auto; }
+.project__body { margin-top: 34px; display: flex; flex-direction: column; gap: 16px; }
 .project__body p { font-size: 16.5px; line-height: 1.72; color: var(--text); }
 .project__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
 .project__tag {

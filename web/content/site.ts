@@ -159,7 +159,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner's weekly regeneration runs on the Anthropic API.",
+        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner runs three Claude agents on the Anthropic SDK, with structured outputs constrained to zod schemas and typed fallbacks so the app never fails because the model did.",
         projects: ["goal-planner"],
       },
       {
@@ -189,7 +189,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Next.js",
-        note: "The Goal Planner is a full Next.js app with a database behind it. This site is the other kind — exported to static HTML, which is why it can sit in an S3 bucket behind a CDN with no server to keep running.",
+        note: "The Goal Planner is a full Next.js 14 app with Postgres behind it. This site is the other kind — exported to static HTML, which is why it can sit in an S3 bucket behind a CDN with no server to keep running.",
         projects: ["goal-planner"],
       },
       {
@@ -198,19 +198,18 @@ export const SKILLS: SkillGroup[] = [
         projects: ["eeg-seizure-detection"],
       },
       {
-        name: "MySQL / PostgreSQL",
-        note: "The Goal Planner runs on MySQL in RDS — schema, queries, and the weekly rollup the AI plan is generated from. Database Management coursework covered the theory; that project is where it got real.",
+        name: "PostgreSQL · Prisma",
+        note: "The Goal Planner runs on Postgres through Prisma: goals, milestones, scheduled tasks, and the log of which plans came from the model versus a fallback. Database Management coursework covered the theory; that project is where it got real.",
         projects: ["goal-planner"],
       },
       {
         name: "Docker",
-        note: "Containerized the EEG inference service, the Goal Planner, and the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
-        projects: ["eeg-seizure-detection", "goal-planner"],
+        note: "Containerized the EEG inference service and the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
+        projects: ["eeg-seizure-detection"],
       },
       {
         name: "AWS",
-        note: "Containerized services at Radius Hire; the Goal Planner on EC2, S3, and RDS; and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
-        projects: ["goal-planner"],
+        note: "Containerized services at Radius Hire, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
       },
       {
         name: "GitHub Actions",
@@ -218,7 +217,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Node.js / React",
-        note: "The Goal Planner's stack under Next.js, and the platform I worked in at Radius Hire.",
+        note: "The Goal Planner's runtime under Next.js, and the platform I worked in at Radius Hire.",
         projects: ["goal-planner"],
       },
       { name: "Java · Spring Boot" },

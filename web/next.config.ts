@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Stop Turbopack walking up past the repo looking for a workspace root.
+  // Without this a stray package-lock.json in a parent directory (say, your
+  // home folder) produces a warning on every build.
+  turbopack: { root: import.meta.dirname },
+
   // Fail the production build on type errors rather than shipping them.
   // (Next 16 decoupled ESLint from `next build` — run `npm run lint` in CI.)
   typescript: { ignoreBuildErrors: false },

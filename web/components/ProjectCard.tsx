@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content/projects";
+import { ProjectShot } from "@/components/ProjectShot";
 
 function Pins({ project, numbered }: { project: Project; numbered?: boolean }) {
   return (
@@ -32,7 +33,7 @@ export function FeaturedCard({ project }: { project: Project }) {
 
       <div className="card__split">
         <div className="card__frame">
-          <div className="shot">{project.image ?? `${project.slug}.png`}</div>
+          <ProjectShot project={project} variant="featured" />
         </div>
         <div className="card__copy">
           <div className="card__meta">
@@ -65,7 +66,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div className="card__frame--top">
-        <div className="shot shot--wide">{project.image ?? `${project.slug}.png`}</div>
+        <ProjectShot project={project} variant="wide" />
       </div>
 
       <div className="card__compact">

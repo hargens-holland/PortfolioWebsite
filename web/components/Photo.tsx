@@ -4,22 +4,26 @@ import Image from "next/image";
 import { useState } from "react";
 
 /**
- * Headshot slot. Until the real file exists in public/assets the silhouette
- * shows instead of a broken-image icon — drop the photo in and it takes over.
+ * Headshot slot.
+ *
+ * `src` is undefined when the file isn't in public/assets (decided at build
+ * time by lib/assets.ts), and the silhouette renders on its own — no request
+ * for a missing image, no broken-image icon. Drop the photo in and rebuild;
+ * it takes over. The onError fallback is belt-and-braces for a file that
+ * exists at build time but fails to load in the browser.
  */
 export function Photo({
   src,
   alt,
   shape,
-  caption,
 }: {
-  src: string;
+  src?: string;
   alt: string;
   shape: "portrait" | "square";
-  caption: string;
 }) {
   const [failed, setFailed] = useState(false);
   const portrait = shape === "portrait";
+  const showImage = src !== undefined && !failed;
 
   return (
     <div className={`photo photo--${shape}`}>
@@ -48,18 +52,17 @@ export function Photo({
         )}
       </svg>
 
-      {!failed && (
+      {showImage && (
         <Image
           className="photo__img"
           src={src}
           alt={alt}
           fill
+          priority={portrait}
           sizes="(max-width: 900px) 300px, 420px"
           onError={() => setFailed(true)}
         />
       )}
-
-      {failed && <div className="photo__caption">{caption}</div>}
     </div>
   );
 }

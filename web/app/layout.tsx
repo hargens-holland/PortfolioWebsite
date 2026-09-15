@@ -46,8 +46,7 @@ export const metadata: Metadata = {
     description: SITE.description,
     url: SITE.url,
     locale: "en_US",
-    // Add a 1200x630 image at public/assets/og-cover.png, then:
-    // images: [{ url: "/assets/og-cover.png", width: 1200, height: 630 }],
+    // The image comes from app/opengraph-image.tsx, rendered at build time.
   },
   twitter: {
     card: "summary_large_image",

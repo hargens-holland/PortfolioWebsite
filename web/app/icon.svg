@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Favicon: a chip on the board, in the site's copper. Next.js picks this
+       file up by name and emits the <link rel="icon"> for it. -->
+  <rect width="64" height="64" fill="#0D110F"/>
+  <g fill="#EB8B4C">
+    <rect x="18" y="8" width="5" height="8"/><rect x="29.5" y="8" width="5" height="8"/><rect x="41" y="8" width="5" height="8"/>
+    <rect x="18" y="48" width="5" height="8"/><rect x="29.5" y="48" width="5" height="8"/><rect x="41" y="48" width="5" height="8"/>
+    <rect x="8" y="18" width="8" height="5"/><rect x="8" y="29.5" width="8" height="5"/><rect x="8" y="41" width="8" height="5"/>
+    <rect x="48" y="18" width="8" height="5"/><rect x="48" y="29.5" width="8" height="5"/><rect x="48" y="41" width="8" height="5"/>
+  </g>
+  <rect x="15" y="15" width="34" height="34" fill="#B4501F"/>
+  <circle cx="22" cy="22" r="3" fill="#0D110F"/>
+</svg>

@@ -1,0 +1,18 @@
+# Opens a PR when a dependency has a newer version. Since the actions in
+# deploy.yml are pinned to commit SHAs, this is the only thing that will ever
+# move them — it updates the SHA and the "# vX.Y.Z" comment together.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: monthly
+    # One PR for all the minor/patch bumps, so it's one review instead of ten.
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]

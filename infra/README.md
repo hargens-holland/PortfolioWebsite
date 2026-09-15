@@ -100,8 +100,12 @@ The bucket, the distribution, and the glue between them.
   - `cache_policy_id` — the AWS-managed *CachingOptimized* policy. It honours
     the `Cache-Control` headers the deploy workflow writes onto each object,
     which is where the real policy lives.
-  - `response_headers_policy_id` — managed *SecurityHeadersPolicy*, which adds
-    HSTS, `X-Content-Type-Options`, `Referrer-Policy`, and frame options.
+  - `response_headers_policy_id` — a custom policy (bottom of the file) that
+    adds HSTS (with preload), a Content-Security-Policy, `Permissions-Policy`,
+    `X-Content-Type-Options`, `Referrer-Policy`, and `X-Frame-Options: DENY`
+    to every response. The AWS-managed policy was the starting point; it has
+    no CSP. If you ever add a third-party script, its origin goes in the CSP
+    `script-src` there or the browser will silently drop it.
   - `custom_error_response` — turns S3's XML "access denied" into your styled
     404 page. Two blocks, because a missing key returns 403 rather than 404
     when the caller isn't allowed to list the bucket.
@@ -146,7 +150,7 @@ The line that makes it safe:
 
 ```hcl
 variable = "token.actions.githubusercontent.com:sub"
-values   = ["repo:${var.github_repo}:ref:refs/heads/main"]
+values   = ["repo:hargens-holland@72099379/PortfolioWebsite@1330104288:ref:refs/heads/main"]
 ```
 
 Only that repo, only that branch. A fork, a pull request, or another repo in
@@ -192,6 +196,11 @@ the edge on every viewer request, before the cache is consulted. It appends
 CloudFront Functions are not Lambda@Edge — they're far more limited (no
 network, no filesystem, sub-millisecond) and far cheaper, about $0.10 per
 million requests. Rewriting a URL is exactly what they're for.
+
+One exception is built in: Next.js emits the link-preview images as files
+named literally `opengraph-image`, with no extension. The function passes
+those through untouched, and the deploy workflow uploads them with an explicit
+`image/png` content type since S3 can't guess it from the name.
 
 ---
 

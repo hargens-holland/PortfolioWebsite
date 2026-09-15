@@ -35,11 +35,18 @@ web/
 │   ├── page.tsx                Homepage
 │   ├── globals.css             All styling. Palette is the :root block at the top
 │   ├── not-found.tsx           404
-│   └── projects/[slug]/page.tsx   One page per project, generated at build
+│   ├── icon.svg                Favicon
+│   ├── opengraph-image.tsx     Link-preview card, rendered at build (see lib/og.tsx)
+│   ├── robots.ts, sitemap.ts   Emitted as /robots.txt and /sitemap.xml
+│   ├── fonts/                  TTFs for the link-preview card only — never shipped
+│   └── projects/[slug]/        One page (and one preview card) per project
 ├── components/                 Nav, cards, boot sequence, trace rails, photos
 ├── content/
 │   ├── projects.ts             ← every project. Add one here and you're done
 │   └── site.ts                 ← name, links, jobs, education, skills, about
+├── lib/
+│   ├── assets.ts               Build-time "does this file exist in public/?" check
+│   └── og.tsx                  The link-preview card template
 └── public/assets/              resume.pdf, headshots, screenshots
 
 design/                         Archived design export the layout came from.
@@ -69,8 +76,10 @@ and the OG tags. Nothing else to touch.
 }
 ```
 
-`links` can be empty — the page renders fine and shows a note where the buttons
-would go, rather than a dead link. Add entries as repos get cleaned up:
+`links` can be empty — the page renders fine and shows a short "not public yet,
+email me" note where the buttons would go, rather than a dead link. `image` can
+be omitted too: the card draws a schematic-style placeholder with the
+designator, and the project page skips the banner. Add entries as repos get cleaned up:
 
 ```ts
 links: [
@@ -94,6 +103,7 @@ README is for someone who already decided.
 | Change colors or spacing | The `:root` block in `web/app/globals.css` |
 | Change the rotating "Currently building ___" | `HERO.roles` in `content/site.ts` |
 | Change link-preview text | `metadata` in `web/app/layout.tsx` |
+| Change the link-preview *card* | `web/lib/og.tsx` — build, then open `web/out/opengraph-image` |
 
 ---
 
@@ -148,10 +158,10 @@ A project's backend belongs with the project, not here.
 
 ## Still open
 
-- [ ] `web/public/assets/resume.pdf` — both download buttons point at it
-- [ ] `headshot-hero.jpg` (4:5) and `headshot-about.jpg` (1:1) — silhouette shows until then
-- [ ] LinkedIn URL → `LINKS.linkedin`
-- [ ] Repo and demo URLs → each project's `links`
-- [ ] Project screenshots → each project's `image`
-- [ ] The remaining projects (2 in so far)
-- [ ] Domain, and `SITE.url` updated to match
+Everything left needs a file or a URL only you have:
+
+- [ ] `headshot-hero.jpg` (4:5) and `headshot-about.jpg` (1:1) in `web/public/assets/` — the silhouette shows until then
+- [ ] LinkedIn URL → `LINKS.linkedin` in `content/site.ts`
+- [ ] Repo and demo URLs → each project's `links` in `content/projects.ts`
+- [ ] Project screenshots → each project's `image` (e.g. `"/assets/dpu-bringup.png"`)
+- [ ] The three projects added from the résumé (M3–M5) — read their `body` text and correct anything that's off, including the years

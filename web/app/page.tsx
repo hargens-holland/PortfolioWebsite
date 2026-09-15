@@ -15,6 +15,7 @@ import { RoleRotator } from "@/components/RoleRotator";
 import { SkillChip } from "@/components/SkillChip";
 import { Reveal } from "@/components/Reveal";
 import { Photo } from "@/components/Photo";
+import { publicAsset } from "@/lib/assets";
 
 export default function HomePage() {
   const featured = featuredProject();
@@ -58,12 +59,7 @@ export default function HomePage() {
           </div>
 
           <figure className="hero__photo">
-            <Photo
-              src="/assets/headshot-hero.jpg"
-              alt={SITE.name}
-              shape="portrait"
-              caption="PHOTO GOES HERE · 4:5"
-            />
+            <Photo src={publicAsset("/assets/headshot-hero.jpg")} alt={SITE.name} shape="portrait" />
             <figcaption>{HERO.photoCaption}</figcaption>
           </figure>
         </div>
@@ -163,12 +159,7 @@ export default function HomePage() {
       {/* ------------------------------------------------------ about --- */}
       <Reveal className="section" id="about" data-section="about">
         <div className="about__grid">
-          <Photo
-            src="/assets/headshot-about.jpg"
-            alt={SITE.name}
-            shape="square"
-            caption="ABOUT PHOTO · 1:1"
-          />
+          <Photo src={publicAsset("/assets/headshot-about.jpg")} alt={SITE.name} shape="square" />
           <div className="about__body">
             <div className="eyebrow">
               <span className="eyebrow__pad">U4</span>

@@ -1,11 +1,16 @@
 # AWS Amplify Hosting build spec.
 #
-# Amplify auto-detects Next.js but not that the app lives in a subdirectory, so
-# `appRoot` is the part that matters here. In the console: connect the repo,
-# and Amplify picks this file up automatically — no build settings to fill in.
+# Not used by the real deploy — that's S3 + CloudFront via GitHub Actions (see
+# .github/workflows/deploy.yml and infra/). This is here so the site can be
+# stood up on Amplify in a couple of clicks if that's ever useful.
 #
-# Set API_URL as an environment variable in the Amplify console (App settings →
-# Environment variables) pointing at your deployed FastAPI service.
+# Amplify auto-detects Next.js but not that the app lives in a subdirectory, so
+# `appRoot` is the part that matters. In the console: connect the repo, and
+# Amplify picks this file up automatically — no build settings to fill in.
+#
+# `baseDirectory` is `out`, not `.next`: next.config.ts sets `output: "export"`,
+# so the build emits plain static files into web/out and .next holds only
+# intermediate artifacts.
 
 version: 1
 applications:
@@ -19,7 +24,7 @@ applications:
           commands:
             - npm run build
       artifacts:
-        baseDirectory: .next
+        baseDirectory: out
         files:
           - "**/*"
       cache:

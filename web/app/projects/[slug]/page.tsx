@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PROJECTS, findProject } from "@/content/projects";
 import { SITE } from "@/content/site";
+import { ProjectShot } from "@/components/ProjectShot";
+import { publicAsset } from "@/lib/assets";
 
 type Params = { slug: string };
 
@@ -60,9 +62,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </div>
       </header>
 
-      <div className="project__frame">
-        <div className="shot shot--banner">{project.image ?? `${project.slug}.png`}</div>
-      </div>
+      {/* Only with a real screenshot — a placeholder this large would just be
+          a hole between the title and the writeup. */}
+      {publicAsset(project.image) && (
+        <div className="project__frame">
+          <ProjectShot project={project} variant="banner" />
+        </div>
+      )}
 
       <div className="project__body">
         {project.body.map((paragraph) => (
@@ -95,8 +101,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </div>
       ) : (
         <p className="project__none">
-          No public links yet. Add them to this project&apos;s <code>links</code> array in{" "}
-          <code>web/content/projects.ts</code> — each one renders as a button here.
+          The source for this one isn&apos;t public yet. Happy to walk through it —{" "}
+          <a href={`mailto:${SITE.email}?subject=${encodeURIComponent(project.name)}`}>
+            email me
+          </a>
+          .
         </p>
       )}
 

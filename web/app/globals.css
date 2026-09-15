@@ -221,10 +221,6 @@ a:hover { color: #fff; }
 .photo--square { aspect-ratio: 1 / 1; }
 .photo__placeholder { position: absolute; inset: 0; width: 100%; height: 100%; }
 .photo__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.photo__caption {
-  position: absolute; inset: auto 0 12px 0; text-align: center;
-  font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--text-faint);
-}
 .hero__photo figcaption { margin-top: 10px; font-family: var(--mono); font-size: 11px; color: var(--text-mute); }
 
 /* --------------------------------------------------------------- work --- */
@@ -269,16 +265,35 @@ a:hover { color: #fff; }
 .card__frame--top { overflow: hidden; border-bottom: 1px solid var(--line); }
 
 .shot {
-  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
   height: 100%; min-height: 300px;
   background: var(--shot);
   box-shadow: inset 0 3px 18px rgba(0, 0, 0, .75), inset 0 0 0 1px rgba(0, 0, 0, .5);
-  font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--text-faint);
   transition: transform .22s ease-out;
 }
 .shot--wide { aspect-ratio: 16 / 10; min-height: 0; }
 .shot--banner { aspect-ratio: 16 / 7; min-height: 0; }
 .card:hover .shot { transform: scale(1.03); }
+
+/* A real screenshot. */
+.shot__img { object-fit: cover; }
+
+/* The schematic placeholder drawn when there's no screenshot yet.
+   Colours live here rather than in the SVG so they follow the palette. */
+.shot__schematic { position: absolute; inset: 0; width: 100%; height: 100%; }
+.schem__grid { color: var(--line); opacity: .6; }
+.schem__fiducial { fill: none; stroke: var(--line-strong); stroke-width: 1; }
+.schem__trace { fill: none; stroke: var(--line-strong); stroke-width: 1.2; }
+.schem__pin { fill: var(--accent-deep); }
+.schem__body { fill: var(--strip); stroke: var(--line-card); stroke-width: 1.5; }
+.schem__pin1 { fill: var(--accent-light); }
+.schem__designator {
+  font-family: var(--display); font-size: 34px; font-weight: 700; letter-spacing: -.02em;
+  fill: var(--text-bright);
+}
+.schem__label { font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; fill: var(--text-mute); }
+.card:hover .schem__pin { fill: var(--accent-mid); }
+.card:hover .schem__body { stroke: var(--line-featured); }
 
 .card__copy { display: flex; flex-direction: column; gap: 13px; padding: 28px 30px 30px; }
 .card__meta { display: flex; align-items: center; gap: 10px; }
@@ -328,6 +343,8 @@ a:hover { color: #fff; }
   border: 1px dashed var(--line-strong);
   font-family: var(--mono); font-size: 11.5px; line-height: 1.6; color: var(--text-mute);
 }
+.project__none a { color: var(--accent-light); border-bottom: 1px solid transparent; transition: border-color var(--ease); }
+.project__none a:hover { border-bottom-color: var(--accent-light); }
 .project__nav { display: flex; justify-content: space-between; gap: 20px; margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--line); font-size: 14px; }
 
 /* --------------------------------------------------------- experience --- */
@@ -404,6 +421,9 @@ a:hover { color: #fff; }
 /* -------------------------------------------------------------- about --- */
 
 .about__grid { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); gap: 56px; align-items: start; }
+/* The about photo is landscape and the subject is at its right edge; a
+   centred square crop would cut them in half. Change this if the photo does. */
+.about__grid .photo__img { object-position: 100% center; }
 .about__body p { margin-bottom: 15px; font-size: 16.5px; line-height: 1.72; color: var(--text); }
 .about__body p:last-child { margin-bottom: 0; }
 .about__body .h2 { margin-bottom: 18px; }
@@ -519,4 +539,6 @@ a:hover { color: #fff; }
   .entry { gap: 8px; }
   .chips { grid-template-columns: 1fr; }
   .footer { padding: 48px 20px 64px; }
+  /* Three labels don't fit in one 28px line on a phone; keep the two that change. */
+  .statusbar__mid { display: none; }
 }

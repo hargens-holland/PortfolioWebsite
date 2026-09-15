@@ -19,6 +19,13 @@
  *   /projects/eeg/             -> /projects/eeg/index.html
  *   /projects/eeg              -> /projects/eeg/index.html
  *   /_next/static/abc123.js    -> unchanged (has a file extension)
+ *   /opengraph-image           -> unchanged (see below)
+ *
+ * The one extensionless file: Next.js emits link-preview images from
+ * app/opengraph-image.tsx as a file literally named `opengraph-image`, with
+ * no extension, at the site root and under each project. Those are real
+ * objects, not directories, so they're passed through as-is. The deploy
+ * workflow uploads them with an explicit image/png content type.
  *
  * This runs at the edge in well under a millisecond and costs about $0.10 per
  * million requests.
@@ -26,6 +33,10 @@
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
+
+  if (uri.endsWith("/opengraph-image")) {
+    return request;
+  }
 
   if (uri.endsWith("/")) {
     request.uri = uri + "index.html";

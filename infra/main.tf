@@ -95,8 +95,9 @@ resource "aws_cloudfront_distribution" "site" {
     # policy lives: hashed assets get a year, HTML gets revalidated.
     cache_policy_id = data.aws_cloudfront_cache_policy.optimized.id
 
-    # HSTS, X-Content-Type-Options, Referrer-Policy, frame options.
-    response_headers_policy_id = data.aws_cloudfront_response_headers_policy.security.id
+    # HSTS, CSP, X-Content-Type-Options, Referrer-Policy, frame options,
+    # Permissions-Policy. Defined below.
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.site.id
 
     function_association {
       event_type   = "viewer-request"
@@ -139,8 +140,93 @@ data "aws_cloudfront_cache_policy" "optimized" {
   name = "Managed-CachingOptimized"
 }
 
-data "aws_cloudfront_response_headers_policy" "security" {
-  name = "Managed-SecurityHeadersPolicy"
+# ---------------------------------------------------------------------------
+# Security headers
+#
+# The AWS-managed "SecurityHeadersPolicy" is a fine start but has no
+# Content-Security-Policy and no Permissions-Policy, so this is a custom one.
+# Every header here is attached to every response at the edge — the site's
+# own HTML never has to know about them.
+# ---------------------------------------------------------------------------
+
+resource "aws_cloudfront_response_headers_policy" "site" {
+  name    = "${var.project_name}-security-headers"
+  comment = "HSTS, CSP, and the usual hardening headers for the static site"
+
+  security_headers_config {
+    # Two years, subdomains too, and eligible for browsers' built-in preload
+    # list. Once preloaded, a browser will refuse plain HTTP to this domain
+    # even on the very first visit.
+    strict_transport_security {
+      access_control_max_age_sec = 63072000
+      include_subdomains         = true
+      preload                    = true
+      override                   = true
+    }
+
+    # Browsers must trust the Content-Type we send, not sniff the bytes.
+    content_type_options {
+      override = true
+    }
+
+    # Nobody may put this site in an <iframe> (clickjacking).
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+
+    # Send the full URL to same-origin links, only the origin cross-site.
+    referrer_policy {
+      referrer_policy = "strict-origin-when-cross-origin"
+      override        = true
+    }
+
+    # The legacy XSS auditor is off (0) on purpose: modern browsers dropped
+    # it, and on the old ones that still have it, it's been used to *cause*
+    # information leaks. CSP is the real defence.
+    xss_protection {
+      protection = false
+      override   = true
+    }
+
+    # What the page is allowed to load, and from where.
+    #
+    # 'unsafe-inline' on script-src and style-src is unavoidable on a static
+    # Next.js export: the hydration payload is emitted as inline <script>
+    # tags whose content changes every build, and a few components set
+    # style attributes. A nonce needs a server; a hash needs a stable build.
+    # Even so, this still forbids loading scripts, fonts, images, or fetches
+    # from any other origin, blocks plugins, and stops <base> hijacking.
+    #
+    # If you add a third-party script (analytics, embeds), add its origin to
+    # script-src here — the browser will silently drop it otherwise.
+    content_security_policy {
+      content_security_policy = join("; ", [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "frame-ancestors 'none'",
+        "upgrade-insecure-requests",
+      ])
+      override = true
+    }
+  }
+
+  # Turns off browser features the site has no use for, so a script that
+  # somehow got in couldn't turn them on either.
+  custom_headers_config {
+    items {
+      header   = "Permissions-Policy"
+      value    = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+      override = true
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------

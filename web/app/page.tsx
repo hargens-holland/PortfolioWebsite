@@ -82,7 +82,8 @@ export default function HomePage() {
 
         <FeaturedCard project={featured} />
 
-        <div className="work__row">
+        {/* Three secondary cards fit better three-across than 2 + 1 orphan. */}
+        <div className={`work__row${others.length === 3 ? " work__row--three" : ""}`}>
           {others.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}

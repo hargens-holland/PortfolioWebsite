@@ -119,6 +119,7 @@ export const PROJECTS: Project[] = [
       "Retries are separated by cause: the SDK handles network retries, while schema violations and truncated responses are retried explicitly with their own logic. Contract tests verify that the schemas and the fallbacks satisfy the same contract, so a fallback can never quietly drift from what the model is supposed to return. 71 tests run in CI, and the architecture is fully documented in the repo.",
     ],
     tags: ["Anthropic SDK", "TypeScript", "Next.js 14", "Prisma", "PostgreSQL", "Zod"],
+    image: "/assets/goal-planner-dashboard.png",
     links: [
       { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
       // Deploy is pending. Add when it's up:

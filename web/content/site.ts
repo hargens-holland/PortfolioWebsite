@@ -193,11 +193,11 @@ export const SKILLS: SkillGroup[] = [
 ];
 
 export const ABOUT = {
-  heading: "Hardware and software",
+  heading: "I build the whole thing",
   paragraphs: [
-    "I studied computer engineering because I didn't want to choose between hardware and software. The problems I like are the ones that sit between them — a DPU that won't meet timing, a model that has to fit the resources you actually have, a service that has to stay up while you rewrite it.",
-    "Right now I'm looking for a new grad role in embedded, ML, or backend engineering — somewhere that will challenge me and put me around people I can learn from.",
-    "Outside of work: golf, and a dog named Beau. I'm also an Eagle Scout.",
+    "I studied computer engineering so I could work at every layer, and I have: firmware on a Cortex-M4, RTL on a Zynq, ML models trained on real sensor data, and full-stack services with AI in the loop. The projects on this page each cover the full path from idea to something running, because that's the part I care about.",
+    "Right now I'm looking for a new grad role in AI, full-stack, ML, or embedded engineering. I'm most useful on teams shipping products where those overlap: an LLM feature that needs a real backend behind it, a model that has to run on actual hardware. I'd like to be somewhere that pushes me to be better.",
+    "Outside of work: golf, and a dog named Beau. Eagle Scout, for what it's worth.",
   ],
 } as const;
 

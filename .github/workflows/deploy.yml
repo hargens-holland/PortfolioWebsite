@@ -67,26 +67,35 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       # ------------------------------------------------------------------
-      # Three uploads, because the right headers differ by file type.
+      # Four uploads, because the right headers differ by file type.
       #
-      # Files under _next/static/ have a content hash in the filename, so a
-      # changed file is a *different* filename. They can be cached forever.
+      # Only files under _next/static/ have a content hash in the filename,
+      # so a changed file is a *different* filename. Those — and only those —
+      # can be cached forever.
       #
-      # HTML filenames never change, so if a browser cached index.html for a
-      # year it would never see your updates. Those must revalidate.
+      # Everything else keeps its name when its content changes: HTML,
+      # photos in assets/, the favicon, the résumé. If a browser cached one
+      # of those for a year, a visitor who'd seen the site before would keep
+      # seeing the old version. HTML must revalidate on every request;
+      # photos and the résumé get an hour, which is long enough to be served
+      # from cache during a visit and short enough that a swap shows up
+      # the same day. (Renaming a photo when you replace it sidesteps the
+      # hour entirely.)
       #
       # Link-preview images (app/opengraph-image.tsx) are emitted as files
       # named just `opengraph-image`, no extension, so S3 can't guess their
       # type. They get their own pass with the content type set explicitly.
-      # They're excluded from the first pass because `s3 sync` skips a file
-      # that's already uploaded — a later pass can't fix its metadata.
+      #
+      # Each pass excludes what the others upload, because `s3 sync` skips
+      # a file that's already in the bucket — a later pass can't fix
+      # metadata the earlier one set.
       # ------------------------------------------------------------------
 
       - name: Upload hashed assets — cache for a year
         run: |
           aws s3 sync "$BUILD_DIR/" "s3://${{ secrets.AWS_S3_BUCKET }}" \
             --delete \
-            --exclude "*.html" --exclude "*.txt" --exclude "*opengraph-image" \
+            --exclude "*" --include "_next/static/*" \
             --cache-control "public, max-age=31536000, immutable"
 
       - name: Upload HTML — always revalidate
@@ -95,6 +104,28 @@ jobs:
             --delete \
             --exclude "*" --include "*.html" --include "*.txt" \
             --cache-control "public, max-age=0, must-revalidate"
+
+      - name: Upload everything else — cache for an hour
+        run: |
+          aws s3 sync "$BUILD_DIR/" "s3://${{ secrets.AWS_S3_BUCKET }}" \
+            --delete \
+            --exclude "_next/static/*" --exclude "*.html" --exclude "*.txt" \
+            --exclude "*opengraph-image" \
+            --cache-control "public, max-age=3600"
+
+      # `s3 sync` only uploads files whose content changed, so a file that
+      # went up under an older Cache-Control value keeps that value until it
+      # changes. This copies each unhashed object onto itself with the
+      # current header, so the bucket never holds a stale one. It's a dozen
+      # files; it costs nothing.
+      - name: Re-stamp cache headers on unchanged files
+        run: |
+          aws s3 cp "s3://${{ secrets.AWS_S3_BUCKET }}/" "s3://${{ secrets.AWS_S3_BUCKET }}/" \
+            --recursive \
+            --exclude "_next/static/*" --exclude "*.html" --exclude "*.txt" \
+            --exclude "*opengraph-image" \
+            --metadata-directive REPLACE \
+            --cache-control "public, max-age=3600"
 
       - name: Upload link-preview images — as PNG
         run: |

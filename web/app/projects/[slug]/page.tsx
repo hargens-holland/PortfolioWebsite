@@ -40,6 +40,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const project = findProject(slug);
   if (!project) notFound();
 
+  // Site-relative links point at files in public/; keep only the ones that exist.
+  const links = project.links.filter((link) => !link.href.startsWith("/") || publicAsset(link.href));
+
   const index = PROJECTS.findIndex((p) => p.slug === project.slug);
   const previous = PROJECTS[index - 1];
   const next = PROJECTS[index + 1];
@@ -85,9 +88,9 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         ))}
       </div>
 
-      {project.links.length > 0 ? (
+      {links.length > 0 ? (
         <div className="project__links">
-          {project.links.map((link, i) => (
+          {links.map((link, i) => (
             <a
               key={link.href}
               className={`btn ${i === 0 ? "btn--primary" : "btn--ghost"}`}
@@ -95,7 +98,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               target="_blank"
               rel="noreferrer"
             >
-              {link.label} ↗
+              {link.label} {link.href.startsWith("/") ? "↓" : "↗"}
             </a>
           ))}
         </div>

@@ -13,6 +13,11 @@
 export type ProjectLink = {
   /** Button text on the project page: "Source", "Live demo", "API", … */
   label: string;
+  /**
+   * External URL, or a site-relative path like "/assets/report.pdf". A
+   * relative one is checked at build time and dropped if the file isn't in
+   * public/ yet, so a link can be written before its file is added.
+   */
   href: string;
 };
 
@@ -48,7 +53,7 @@ export const PROJECTS: Project[] = [
     role: "Team of 5 · ECE 554 capstone",
     featured: true,
     summary:
-      "Real-time exercise recognition from a live camera on a Zynq UltraScale+ FPGA: pose estimation on the ARM cores, a quantized neural-network classifier in the fabric. No cloud, no GPU, no video leaving the board.",
+      "Real-time exercise recognition and rep counting from a live camera on a Zynq UltraScale+ FPGA: pose estimation on the ARM cores, a quantized neural-network classifier in the fabric. No cloud, no GPU, no video leaving the board.",
     body: [
       "Consumer fitness apps either run vision on a phone CPU, where throttling and OS scheduling drop frames and miss reps, or stream video of your home to a server, adding latency and creating a permanent record of a private activity. Doing inference on-device fixes both: latency is bounded by hardware, and only 34 bytes of skeleton coordinates ever cross a bus.",
       "A USB camera feeds frames to Google's pretrained MoveNet pose model running on the Zynq's ARM Cortex-A53 cores, reducing each frame to 17 body keypoints. The 34 (y, x) values are written over AXI-Lite into a custom FPGA peripheral that holds a 34→128→64→3 multilayer perceptron with int8 weights in on-chip BRAM. A hand-written SystemVerilog state machine drives a single DSP48E2 multiply-accumulate through the network and returns a class: push-up, squat, curl, or no pose. The ARM side overlays the skeleton, class, confidence, rep tally, and frame rate on a DisplayPort output.",
@@ -61,6 +66,9 @@ export const PROJECTS: Project[] = [
     image: "/assets/flex-pga-demo.jpg",
     links: [
       { label: "Source", href: "https://github.com/hargens-holland/WorkoutClassificationTracker" },
+      // Local files only show once they exist in public/ — see the note on ProjectLink.
+      { label: "Final report", href: "/assets/flex-pga-final-report.pdf" },
+      { label: "Poster", href: "/assets/flex-pga-poster.pdf" },
     ],
   },
   {

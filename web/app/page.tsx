@@ -159,7 +159,7 @@ export default function HomePage() {
       {/* ------------------------------------------------------ about --- */}
       <Reveal className="section" id="about" data-section="about">
         <div className="about__grid">
-          <Photo src={publicAsset("/assets/headshot-about.jpg")} alt={`${SITE.name} demonstrating the workout-detection capstone`} shape="landscape" />
+          <Photo src={publicAsset("/assets/about-hiking.jpg")} alt={`${SITE.name} hiking in the mountains`} shape="landscape" />
           <div className="about__body">
             <div className="eyebrow">
               <span className="eyebrow__pad">U4</span>

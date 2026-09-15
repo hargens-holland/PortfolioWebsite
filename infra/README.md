@@ -210,13 +210,17 @@ Two ideas that work together.
 
 **Filenames.** Everything under `_next/static/` has a content hash in its
 name. Change the file, the name changes. So those can be cached for a year and
-marked `immutable` — a browser never needs to check. HTML filenames never
-change, so HTML must revalidate on every request or your updates would be
-invisible to returning visitors for a year.
+marked `immutable` — a browser never needs to check. Everything else — HTML,
+photos, the résumé, the favicon — keeps its name when it changes, so it must
+not be cached that long or returning visitors would keep seeing the old
+version. HTML revalidates on every request; the rest gets an hour.
 
-That's why the deploy does two `aws s3 sync` passes with different
+That's why the deploy does several `aws s3 sync` passes with different
 `--cache-control` values. The header is stored on the S3 object, and both
-CloudFront and the visitor's browser obey it.
+CloudFront and the visitor's browser obey it. The bug this design avoids is
+easy to hit: an early version of the workflow marked *every* non-HTML file
+immutable, and swapping a photo under the same filename left old visitors
+with the old photo for a year.
 
 **Invalidation.** Even with `must-revalidate`, CloudFront's edges hold copies.
 `create-invalidation --paths "/*"` tells all of them to drop everything. The

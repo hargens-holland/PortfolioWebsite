@@ -60,7 +60,7 @@ export const PROJECTS: Project[] = [
       "Three decisions shaped the design. Using a pretrained pose model instead of an end-to-end CNN reduces a frame from hundreds of thousands of pixels to 34 numbers, which makes the classifier small enough to live in fabric. Int8 post-training quantization puts all 12,931 weights and biases in a single BRAM (1.6% of the device), maps each multiply onto one DSP48E2, and turns ReLU into a sign check on the accumulator. And one sequential MAC is enough: at about 1 ms per inference against a 100 ms frame budget, there was no reason to spend area on parallelism, so the classifier uses 0.28% of the device's DSPs and roughly 3% of its logic.",
       "Pose estimation was originally designed to run in fabric on a Xilinx DPUCZDX8G. That build routed and closed timing (WNS +14.1 ns at 96.97 MHz), but occupied 99.98% of the CLBs and 95% of the DSPs, leaving no room for anything else and costing hours per synthesis iteration. The team moved pose estimation to the ARM cores and gave the fabric the workload it fit. The routed Vivado reports for both outcomes are preserved in the repo.",
       "Results from the final report: 10 FPS throughput (target 15), 90% classification accuracy (target above 85%), 3 W power (target under 5 W), and 15% rep-counting error (target under 5%). The system was bounded by pose estimation on the ARM cores; the fabric classifier used about 1% of the per-frame budget.",
-      "My part: camera bring-up (a MIPI PCam that pivoted to USB/UVC) and the PS-side camera → shared-memory → DPU/VART inference pipeline used during the DPU integration attempt. After the capstone I authored the repository as a portfolio record: the README, architecture and register-map docs, a reconstructed MoveNet stage, and source-level fixes to the PS/PL interface.",
+      "My part: camera bring-up (a MIPI PCam that pivoted to USB/UVC) and the PS-side camera → shared-memory → DPU/VART inference pipeline used during the DPU integration attempt.",
     ],
     tags: ["SystemVerilog", "Vivado", "AXI4-Lite", "Zynq UltraScale+", "PYNQ", "Python", "OpenCV", "TFLite", "Vitis AI"],
     image: "/assets/flex-pga-demo.jpg",
@@ -78,12 +78,12 @@ export const PROJECTS: Project[] = [
     year: "2026",
     role: "ECE 539 team project · 2D CNN + evaluation",
     summary:
-      "Seizure detection from raw EEG with 1D and 2D CNNs. Every model hit 99.6% accuracy and caught zero seizures, so the project became a study of evaluating under severe imbalance: sensitivity over accuracy, leak-free recording-level splits, and a false-alarm budget.",
+      "Seizure detection from raw EEG with 1D and 2D CNNs. The first run hit 99.6% accuracy and caught zero seizures, so the project became a study of evaluating under severe imbalance: sensitivity over accuracy, leak-free recording-level splits, and a false-alarm budget. Rerun in progress.",
     body: [
       "Seizure detection from raw 23-channel scalp EEG in the CHB-MIT database, for ECE 539 (Neural Networks) at UW–Madison. An end-to-end pipeline runs from EDF ingestion through annotation-based labels and feeds five models identical 4-second windows: three classical baselines, a 1D CNN on the raw signal, and a 2D CNN on STFT spectrograms.",
-      "Every model scored over 99.6% accuracy while catching zero seizures, because seizures make up under 5% of a recording. Sensitivity exposed the problem, and AUC showed the CNNs had actually learned to rank seizure windows above background. The failure was the decision threshold, not the model.",
-      "Revisiting the project later, I found two deeper problems. A labeling bug was under-counting seizure windows by about 10×. And the random window split let overlapping windows share signal across train and test, which inflated AUC to 0.98–0.999 and made every number from the original run untrustworthy.",
-      "I rebuilt the evaluation around recording-level splits, so no recording contributes to both sides, and thresholds chosen on validation data against a false-alarm budget rather than the default 0.5. That's the operating point a clinician would actually care about: how many seizures are caught at how many false alarms per hour.",
+      "In the first run, every model scored over 99.6% accuracy while catching zero seizures, because seizures make up under 5% of a recording. Sensitivity exposed the problem, and AUC suggested the CNNs had learned to rank seizure windows above background. At the time, the conclusion was that the failure was the decision threshold, not the model.",
+      "Revisiting the project later, I found two deeper problems. A labeling bug was under-counting seizure windows by about 10×. And the random window split let overlapping windows share signal across train and test, which inflated AUC to 0.98–0.999. Together they mean every number from that first run, the 99.6% included, has to be redone.",
+      "The rebuilt evaluation uses recording-level splits, so no recording contributes to both sides, and thresholds chosen on validation data against a false-alarm budget rather than the default 0.5. That's the operating point a clinician would actually care about: how many seizures are caught at how many false alarms per hour. The rerun on that protocol is in progress; results will go here when it's done.",
       "My part: the 2D CNN and its spectrogram pipeline, the evaluation protocol, and the two bug fixes.",
     ],
     tags: ["Python", "PyTorch", "MNE", "scikit-learn", "STFT", "CHB-MIT"],
@@ -113,7 +113,7 @@ export const PROJECTS: Project[] = [
     name: "Goal Planner",
     designator: "M4",
     year: "2025",
-    role: "Solo · AI agents in production",
+    role: "Solo · LLM agents",
     summary:
       "Three Claude agents turn a stated goal into a milestone roadmap and place the week's work into the hours you're actually free. Structured outputs, typed fallbacks, per-call telemetry, and an eval harness with an LLM judge that decides which model each agent runs on. 124 tests.",
     body: [

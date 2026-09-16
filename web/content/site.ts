@@ -19,7 +19,7 @@ export const SITE = {
 export const LINKS = {
   github: "https://github.com/hargens-holland",
   /** Fill in and it appears in the footer automatically. */
-  linkedin: "",
+  linkedin: "https://www.linkedin.com/in/holland-hargens",
   resume: "/assets/resume.pdf",
 } as const;
 
@@ -99,7 +99,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Verilog / SystemVerilog",
-        note: "The capstone RTL on a Zynq: the PS↔PL interface that hands data between the ARM core and the FPGA fabric for on-device inference, validated end to end. Before that, Digital System Design and Computer Architecture coursework.",
+        note: "Digital System Design and Computer Architecture coursework, and reading it closely on the capstone: teammates wrote the classifier RTL, and my PS-side pipeline had to match its AXI-Lite register map and timing exactly for the two halves to work together.",
         projects: ["flex-pga"],
       },
       {
@@ -124,7 +124,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "AXI4-Lite",
-        note: "The register interface between the ARM cores and the capstone's FPGA classifier: 34 keypoint values written in, a class read back. I documented the register map and fixed the PS/PL interface at the source level after the capstone.",
+        note: "The register interface between the ARM cores and the capstone's FPGA classifier: 34 keypoint values written in, a class read back. My side was the processing system: writing to and reading from that peripheral from Python on PYNQ, and making the camera pipeline feed it at frame rate.",
         projects: ["flex-pga"],
       },
       {

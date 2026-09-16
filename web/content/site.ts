@@ -141,12 +141,12 @@ export const SKILLS: SkillGroup[] = [
     items: [
       {
         name: "Python",
-        note: "My default for anything data or ML: the preprocessing pipeline at Veridis, model training in both PyTorch and TensorFlow, the OpenCV and NumPy camera pipeline on the capstone's ARM cores, and the FastAPI services I've written since.",
+        note: "My default for anything data or ML: the preprocessing pipeline at Veridis, the EEG pipeline from EDF files through MNE to spectrograms, model training in both PyTorch and TensorFlow, the OpenCV and NumPy camera pipeline on the capstone's ARM cores, and the FastAPI services I've written since.",
         projects: ["eeg-seizure-detection", "flex-pga"],
       },
       {
         name: "PyTorch",
-        note: "Trained regression and classification models on 23-channel time-series sensor data at Veridis, and the seizure classifier in my EEG project.",
+        note: "Trained regression and classification models on 23-channel time-series sensor data at Veridis, and the 1D and 2D CNNs in the EEG seizure project, where the model was fine and the evaluation was the problem.",
         projects: ["eeg-seizure-detection"],
       },
       {
@@ -159,7 +159,12 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner runs three Claude agents on the Anthropic SDK, with structured outputs constrained to zod schemas and typed fallbacks so the app never fails because the model did.",
+        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner runs three Claude agents on the Anthropic SDK, with structured outputs constrained to Zod schemas and typed fallbacks so the app never fails because the model did.",
+        projects: ["goal-planner"],
+      },
+      {
+        name: "Evals & observability",
+        note: "In the Goal Planner, every model call is logged with tokens, cost, and latency, and an eval harness with deterministic checks and an LLM judge decides which model each agent runs on. Built first, on purpose: it found six bugs the unit tests couldn't see.",
         projects: ["goal-planner"],
       },
       {
@@ -177,7 +182,11 @@ export const SKILLS: SkillGroup[] = [
         note: "The runtime for the DPU integration attempt on the capstone. I built the camera → shared-memory → VART inference path on the processing-system side before the team moved pose estimation off the fabric.",
         projects: ["flex-pga"],
       },
-      { name: "Scikit-learn · Pandas" },
+      {
+        name: "Scikit-learn · Pandas",
+        note: "The three classical baselines in the EEG project, and the metrics that showed accuracy was lying: sensitivity, AUC, and thresholds chosen on validation data against a false-alarm budget.",
+        projects: ["eeg-seizure-detection"],
+      },
     ],
   },
   {
@@ -194,18 +203,16 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "FastAPI",
-        note: "The inference endpoint for my EEG classifier, and the interview-scheduling service at Radius Hire, which runs on the WhatsApp Business API.",
-        projects: ["eeg-seizure-detection"],
+        note: "The interview-scheduling service at Radius Hire, which runs on the WhatsApp Business API, and the other FastAPI services there.",
       },
       {
         name: "PostgreSQL · Prisma",
-        note: "The Goal Planner runs on Postgres through Prisma: goals, milestones, scheduled tasks, and the log of which plans came from the model versus a fallback. Database Management coursework covered the theory; that project is where it got real.",
+        note: "The Goal Planner runs on Postgres through Prisma: goals, milestones, scheduled tasks, the per-call telemetry table, and the rate-limit windows, which are one atomic upsert per request. Database Management coursework covered the theory; that project is where it got real.",
         projects: ["goal-planner"],
       },
       {
         name: "Docker",
-        note: "Containerized the EEG inference service and the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
-        projects: ["eeg-seizure-detection"],
+        note: "Containerized the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
       },
       {
         name: "AWS",

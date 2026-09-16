@@ -155,6 +155,47 @@ export const PROJECTS: Project[] = [
     ],
     sourceNote: "The repository is private while I'm still actively working on it.",
   },
+  {
+    slug: "ebike-controller",
+    name: "eBike Motor-Assist Controller",
+    designator: "M5",
+    year: "2025",
+    role: "Team of 3 · ECE 551 final project",
+    summary:
+      "A pedal-assist controller for an electric bike in SystemVerilog, synthesized to a 32 nm standard-cell library at a 2.5 ns clock: sensor conditioning over SPI, a hardware PID loop, six-step hall-sensor commutation with dead-time PWM gate drive, and UART telemetry. 20 modules, verified closed-loop against physics models.",
+    body: [
+      "A complete pedal-assist controller for an electric bike, built with two teammates for ECE 551 (Digital System Design and Synthesis) at UW–Madison in spring 2025. The design reads rider torque, pedal cadence, battery voltage, brake position, and hill incline; computes a target motor current from a configurable assist level; closes the loop with a hardware PID controller; and drives a brushless DC hub motor through six-step hall-sensor commutation with non-overlapping PWM gate signals. Measured values stream out over UART for telemetry.",
+      "The signal path: an ADC interface round-robins four channels over a 16-bit SPI master shared with the inertial sensor, whose gyro rate is integrated with accelerometer correction into a 13-bit incline. Sensor conditioning exponentially averages torque and motor current, measures cadence from a debounced pulse, and gates the PID error to zero when the battery is low or the rider stops pedaling. The desired-drive block computes target current as (torque minus a minimum) times cadence factor times incline factor times assist scale, through a pipelined multiplier.",
+      "The control and drive side: a PID running at 48 Hz through a decimator, with a saturating 18-bit integrator, a derivative taken against a three-sample-delayed error, and a 12-bit clamped output. The commutation block maps the three hall sensors to a six-step state, sets each coil to forward, reverse, or high-Z, and switches to regenerative braking when the brake is pulled. An 11-bit PWM feeds three non-overlap blocks that insert 32 clocks of dead time whenever a gate pair changes, so a high-side and low-side switch can never conduct at once. A push button cycles the assist level and shows it on two LEDs.",
+      "Synthesis with Synopsys Design Compiler to the SAED 32 nm LVT library at a 2.5 ns clock, with hierarchy flattened and hold fixed. The baseline flow came in at 13,406 µm² and 3,742 cells with setup and hold both met at zero slack. An area-driven experiment with compile_ultra -retime cut cell area 18% to 10,991 µm² and still met setup, but left one hold path 80 ps short even with hold fixing, so the baseline netlist was the one submitted.",
+      "Verification is in QuestaSim. Full-system testbenches close the loop through course-provided physics models: an ADC SPI slave, an IMU slave whose accelerometer follows the commanded yaw rate, and a hub-wheel model that turns the six gate-drive outputs into coil voltages, wheel speed, hall edges, and motor current. A FAST_SIM parameter shortens the 48 Hz decimator and the one-third-second cadence timeout to a simulation-friendly number of clocks. One bench sweeps torque, incline, battery, brake, and assist mode while the loop settles between steps; another checks that the PID error converges after every stimulus change and stops on failure; a third runs the same stimulus against the gate-level netlist. Unit benches cover the SPI master, ADC interface, PID against a plant model, cadence filter, incline saturation, sensor conditioning, and telemetry.",
+      "What we wrote versus what was provided: all of the RTL except the course-provided UART transmitter, cadence lookup table, and inertial integrator; every testbench and the shared testbench utilities; both synthesis scripts; and an IMU bring-up top for the DE0-Nano FPGA. The course supplied the physics models, the top-level port list, and the Quartus pin assignments.",
+    ],
+    tags: ["SystemVerilog", "Synopsys DC", "SAED 32 nm", "QuestaSim", "SPI", "PID", "PWM", "UART", "Quartus"],
+    links: [],
+    compact: true,
+    sourceNote: "The repository is private because it's a course project.",
+  },
+  {
+    slug: "risc-cpu",
+    name: "16-bit Pipelined RISC CPU with Caches",
+    designator: "M6",
+    year: "2025",
+    role: "Team of 3 · ECE 552",
+    summary:
+      "A 5-stage pipelined 16-bit RISC processor in structural Verilog with hazard detection, data forwarding, and branch flushing, backed by 2-way set-associative instruction and data caches, a cache-fill FSM, and a memory arbiter in front of a 4-cycle main memory. Four assembled test programs pass in cycle-level simulation.",
+    body: [
+      "A 16-bit RISC processor designed and verified in structural Verilog with Thomas and Ashton for ECE 552 (Computer Architecture) at UW–Madison. It implements a 16-instruction custom ISA with N, V, and Z flags and eight branch conditions. All three of us worked across every part of the design rather than splitting it into silos.",
+      "The core is a classic IF/ID/EX/MEM/WB pipeline. The hazard unit detects load-use and branch-source stalls, MEM and WB results forward back to EX with a byte-merge so partial-register writes forward correctly, and branches resolve in ID with a flag bypass so a taken branch flushes a single instruction.",
+      "Behind it sits a memory hierarchy: separate 2 KB two-way set-associative instruction and data caches, each 64 sets of 16-byte blocks with LRU replacement, a write-through data cache, a fill FSM that streams 8-word blocks from a 4-cycle-latency main memory, and an arbiter that gives the data cache priority when both miss at once.",
+      "The datapath includes a 16-bit carry-lookahead adder, saturating ADD and SUB, a four-lane packed saturating add (PADDSB), a byte-reduction tree (RED), and a logarithmic shifter for SLL, SRA, and ROR, plus a bit-cell register file with byte-granular writes.",
+      "Everything is structural Verilog: every register is built from a dff primitive, and a Design Compiler script targets a 2.5 ns clock in a 32 nm library. Verification ran four assembled test programs, including a self-checking memory-copy loop, and all four pass with cycle-level simulation traces.",
+    ],
+    tags: ["Verilog", "Computer Architecture", "Pipelining", "Caches", "ModelSim", "Synopsys DC", "RTL Design"],
+    links: [],
+    compact: true,
+    sourceNote: "The repository is private because it's a course project.",
+  },
 ];
 
 export const featuredProject = () => PROJECTS.find((p) => p.featured) ?? PROJECTS[0];

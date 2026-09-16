@@ -99,8 +99,18 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Verilog / SystemVerilog",
-        note: "Digital System Design and Computer Architecture coursework, and reading it closely on the capstone: teammates wrote the classifier RTL, and my PS-side pipeline had to match its AXI-Lite register map and timing exactly for the two halves to work together.",
-        projects: ["flex-pga"],
+        note: "The eBike controller for ECE 551: 20 SystemVerilog modules from SPI master to PID to commutation, synthesized to 32 nm. The ECE 552 pipelined CPU in structural Verilog, down to dff primitives. On the capstone, teammates wrote the classifier RTL and my PS-side pipeline had to match its AXI-Lite register map and timing exactly.",
+        projects: ["ebike-controller", "risc-cpu", "flex-pga"],
+      },
+      {
+        name: "Synopsys Design Compiler",
+        note: "Synthesizing the eBike controller to SAED 32 nm LVT at a 2.5 ns clock: constraints, wire-load model, hold fixing, and reading the area and timing reports. An area-driven compile_ultra experiment cut cell area 18% but left one hold path 80 ps short, which is why it didn't become the final netlist.",
+        projects: ["ebike-controller"],
+      },
+      {
+        name: "ModelSim / QuestaSim",
+        note: "Closed-loop system testbenches through physics models for the eBike controller, unit benches for every block, gate-level simulation of the synthesized netlist, and cycle-level traces of four test programs on the pipelined CPU.",
+        projects: ["ebike-controller", "risc-cpu"],
       },
       {
         name: "PSoC 6",

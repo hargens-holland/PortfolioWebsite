@@ -9,8 +9,9 @@ import {
   SKILLS,
   WORK,
 } from "@/content/site";
-import { PROJECTS, featuredProject, otherProjects } from "@/content/projects";
+import { PROJECTS, compactProjects, featuredProject, otherProjects } from "@/content/projects";
 import { FeaturedCard, ProjectCard } from "@/components/ProjectCard";
+import { MoreProjects } from "@/components/MoreProjects";
 import { RoleRotator } from "@/components/RoleRotator";
 import { SkillChip } from "@/components/SkillChip";
 import { Reveal } from "@/components/Reveal";
@@ -20,6 +21,7 @@ import { publicAsset } from "@/lib/assets";
 export default function HomePage() {
   const featured = featuredProject();
   const others = otherProjects();
+  const more = compactProjects();
 
   return (
     <>
@@ -88,6 +90,9 @@ export default function HomePage() {
             <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
+
+        {/* Course projects, collapsed so the section stays a screen or two. */}
+        <MoreProjects projects={more} />
       </Reveal>
 
       {/* ------------------------------------------------- experience --- */}

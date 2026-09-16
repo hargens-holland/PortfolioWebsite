@@ -327,6 +327,39 @@ a:hover { color: #fff; }
 .pin__mark { width: 12px; height: 5px; background: var(--accent-deep); }
 .pin__n { color: var(--text-faint); }
 
+/* Collapsed list of course projects under the cards. */
+.more { margin-top: 24px; }
+.more__toggle {
+  display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px;
+  border: 1px solid var(--line-strong); cursor: pointer; list-style: none; user-select: none;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--text);
+  transition: border-color var(--ease), background var(--ease);
+}
+.more__toggle::-webkit-details-marker { display: none; }
+.more__toggle:hover { border-color: var(--accent); background: var(--panel-alt); }
+.more__chev { display: inline-block; color: var(--accent-light); transition: transform var(--ease); }
+.more[open] .more__chev { transform: rotate(90deg); }
+.more[open] .more__closed, .more:not([open]) .more__open { display: none; }
+.more__list { margin-top: 16px; border: 1px solid var(--line); background: var(--card); list-style: none; padding: 0; }
+.more__list > li + li { border-top: 1px solid var(--line); }
+.more__row {
+  display: grid; grid-template-columns: 150px 1fr auto; gap: 24px; align-items: start;
+  padding: 22px 24px; color: inherit;
+  transition: background var(--ease);
+}
+.more__row:hover { background: var(--card-hover); color: inherit; }
+.more__id { display: flex; flex-direction: column; gap: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--text-mute); }
+.more__body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.more__head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.more__title { font-size: 18px; font-weight: 600; letter-spacing: -.02em; color: var(--text-bright); }
+.more__meta { font-family: var(--mono); font-size: 11px; color: var(--text-mute); }
+.more__blurb { font-size: 15px; line-height: 1.65; color: var(--text); }
+.more__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.more__tag { padding: 4px 9px; background: var(--strip); font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); }
+.more__tag--lock { border: 1px dashed var(--line-strong); background: transparent; color: var(--text-mute); }
+.more__cta { font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--accent-light); }
+.more__row:hover .more__cta { text-decoration: underline; text-underline-offset: 3px; }
+
 /* --------------------------------------------------- project page ------- */
 
 .project { max-width: var(--measure); margin: 0 auto; padding: 48px 0 60px; }
@@ -532,6 +565,8 @@ a:hover { color: #fff; }
   .hero, .section, .project { padding-left: 20px; padding-right: 20px; }
 
   .hero__grid, .about__grid, .card__split, .work__row, .work__row--three, .entry, .contact__grid { grid-template-columns: 1fr; }
+  .more__row { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
+  .more__id { flex-direction: row; gap: 10px; }
   .hero__grid { gap: 36px; align-items: start; }
   .hero__photo { max-width: 300px; }
   .hero__intro { font-size: 20px; }

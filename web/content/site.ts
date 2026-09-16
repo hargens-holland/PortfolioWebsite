@@ -94,7 +94,7 @@ export const SKILLS: SkillGroup[] = [
     items: [
       {
         name: "C / C++",
-        note: "Bare-metal firmware, mostly. The PSoC6 Blackjack project is all C with no RTOS underneath: hardware timers, interrupt-driven button input with software debounce, and an LCD driven over SPI.",
+        note: "Firmware, mostly. The PSoC 6 Blackjack project is all C on FreeRTOS: seven state tasks, a gatekeeper task for each bus, queues and notifications between them, and hand-written drivers for the joystick, buttons, SPI, I2C, and UART underneath.",
         projects: ["psoc6-blackjack"],
       },
       {
@@ -103,13 +103,13 @@ export const SKILLS: SkillGroup[] = [
         projects: ["flex-pga"],
       },
       {
-        name: "PSoC6",
-        note: "The board under the Blackjack project: GPIO, SPI, I2C, and UART peripherals sharing one interrupt scheme, with the game's six states driven off those events.",
+        name: "PSoC 6",
+        note: "The Infineon board under the Blackjack project: ADC joystick, GPIO buttons, SPI EEPROM, a TCA9534 I2C IO expander, a parallel-bus LCD, and a UART console, each behind its own FreeRTOS gatekeeper task so only one piece of code ever touches a bus.",
         projects: ["psoc6-blackjack"],
       },
       {
         name: "Cortex-M4",
-        note: "The core in the PSoC6. I've worked it bare-metal — timers, interrupts, and peripherals by hand rather than through an RTOS — which is the level where timing problems actually show up.",
+        note: "The core in the PSoC 6. Interrupt-context work on it (an IO-expander ISR posting to an event group through the FromISR API), task priorities set so input preempts the game state machine, and the timing questions that come with both.",
         projects: ["psoc6-blackjack"],
       },
       {
@@ -133,7 +133,11 @@ export const SKILLS: SkillGroup[] = [
         projects: ["flex-pga"],
       },
       { name: "Altium PCB Design" },
-      { name: "RTOS" },
+      {
+        name: "FreeRTOS",
+        note: "Thirteen tasks on the PSoC 6: one per Blackjack game state, one gatekeeper per peripheral, wired together with task notifications, an event group, queues that carry their own reply-queue handles, and a binary semaphore around the game struct. Built in ModusToolbox with GCC ARM.",
+        projects: ["psoc6-blackjack"],
+      },
     ],
   },
   {

@@ -42,6 +42,18 @@ export type Project = {
    */
   image?: string;
   links: ProjectLink[];
+  /**
+   * Course projects without a screenshot don't get a card. Set this and the
+   * project is listed compactly under "More projects" on the homepage,
+   * collapsed until a visitor opens it. It still gets its own page.
+   */
+  compact?: boolean;
+  /**
+   * Why there's no Source link, e.g. "The repository is private because it's
+   * a course project." Shown on the project page in place of the generic
+   * "not public yet" note when `links` is empty.
+   */
+  sourceNote?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -94,19 +106,25 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "psoc6-blackjack",
-    name: "PSoC6 Blackjack",
+    name: "PSoC 6 Blackjack",
     designator: "M3",
     year: "2025",
-    role: "Solo · bare-metal C",
+    role: "With Ryan O'Sullivan · ECE 353",
     summary:
-      "A complete Blackjack game in embedded C on a PSoC6 Cortex-M4: interrupt-driven buttons with debounce, an SPI-driven LCD, and four peripherals sharing one interrupt scheme.",
+      "Blackjack on an Infineon PSoC 6 dev board, architected as 13 cooperating FreeRTOS tasks instead of a superloop: one task per game state, one gatekeeper task per peripheral, and all communication through task notifications, an event group, queues, and a semaphore.",
     body: [
-      "Blackjack, written bare-metal in C for a PSoC6 board with an ARM Cortex-M4 core. No RTOS: hardware timers, GPIO button handling, and interrupt-driven input with software debounce, all managed directly.",
-      "The display is an LCD driven over SPI. Rendering six game states within the timing budget meant being deliberate about which parts of the frame actually changed between updates.",
-      "Four peripherals share the interrupt logic, so most of the work was in the state machine: making sure every transition between game states was correct across every scenario the rules allow, and proving it.",
+      "A complete game of Blackjack running on a PSoC 6 microcontroller with an LCD, joystick, push buttons, SPI EEPROM, and an I2C IO expander, built with Ryan O'Sullivan for ECE 353 at UW–Madison in spring 2025. The interesting part isn't the card game; it's how the firmware is organized. Rather than a single main loop polling everything, the application is a set of FreeRTOS tasks that only talk to each other through RTOS primitives.",
+      "One task per game state. Start, Shuffle, Bet, Dealer Show, Player Hit, Dealer Hit, and Hand Complete are each a task blocked on ulTaskNotifyTake(). A state transition is a single xTaskNotifyGive() to the next state's handle: no dispatcher, no state enum, and exactly one FSM task runnable at any time.",
+      "Gatekeeper tasks own the hardware. The LCD, SPI EEPROM, I2C IO expander, and UART console each have one task that is the only code allowed to touch that bus. Game logic sends commands through queues, which removes bus-reentrancy races entirely. EEPROM reads carry the caller's own reply-queue handle in the request message, so multiple states can share the EEPROM task without clobbering each other's answer.",
+      "Input fans in through an event group. Debounced button and joystick tasks run at a higher priority than the FSM, so input is never missed while a state is drawing. They set bits in a shared event group, and each state waits on just the subset of inputs it cares about. The IO-expander button arrives in interrupt context via xEventGroupSetBitsFromISR.",
+      "A binary semaphore guards the shared game struct: deck, both hands, funds, and bet. The hardware TRNG drives a Fisher–Yates shuffle so every power-up deals a different game. Logging is non-blocking: task_print() formats into a heap buffer and queues it to the console task, so any task can log safely.",
+      "Driver work underneath: ADC joystick, GPIO push buttons with software debounce, SPI EEPROM for a persistent high score, a TCA9534 I2C IO expander driving an LED win-streak display and an interrupt-driven button, parallel-bus LCD rendering of cards and stats, and a UART console with colour-coded state logging.",
+      "What we built versus what was provided: the course supplied header skeletons, the LCD and font bitmaps, and the board support package. Ryan and I wrote the seven FSM state tasks, the gatekeeper task bodies (screen command handling, EEPROM read/write with reply routing, debouncing, joystick edge detection, IO-expander ISR hookup), the game model (deck, hands, scoring, screen layout), and the driver implementations for the joystick, buttons, SPI, I2C, IO expander, console, and remote UART.",
     ],
-    tags: ["C", "Cortex-M4", "PSoC6", "SPI", "I2C", "UART", "GPIO"],
+    tags: ["C", "FreeRTOS", "Cortex-M4", "PSoC 6", "ModusToolbox", "SPI", "I2C", "ADC", "UART"],
     links: [],
+    compact: true,
+    sourceNote: "The repository is private because it's a course project.",
   },
   {
     slug: "goal-planner",
@@ -129,14 +147,19 @@ export const PROJECTS: Project[] = [
     ],
     image: "/assets/goal-planner-dashboard-2.png",
     links: [
-      { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
+      // The repo is private while it's under active work; restore when it's public.
+      // { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
       // Deploy is pending. Add when it's up:
       // { label: "Live demo", href: "https://…" },
       // { label: "Architecture", href: "https://github.com/hargens-holland/GoalApp/blob/main/docs/ARCHITECTURE.md" },
     ],
+    sourceNote: "The repository is private while I'm still actively working on it.",
   },
 ];
 
 export const featuredProject = () => PROJECTS.find((p) => p.featured) ?? PROJECTS[0];
-export const otherProjects = () => PROJECTS.filter((p) => p !== featuredProject());
+/** Card-sized projects below the featured one. */
+export const otherProjects = () => PROJECTS.filter((p) => p !== featuredProject() && !p.compact);
+/** The collapsed "More projects" list. */
+export const compactProjects = () => PROJECTS.filter((p) => p.compact && p !== featuredProject());
 export const findProject = (slug: string) => PROJECTS.find((p) => p.slug === slug);

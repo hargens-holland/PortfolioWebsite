@@ -104,7 +104,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </div>
       ) : (
         <p className="project__none">
-          The source for this one isn&apos;t public yet. Happy to walk through it —{" "}
+          {project.sourceNote ?? "The source for this one isn't public yet."} Happy to walk through
+          it or share access —{" "}
           <a href={`mailto:${SITE.email}?subject=${encodeURIComponent(project.name)}`}>
             email me
           </a>

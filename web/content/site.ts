@@ -226,7 +226,8 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Docker",
-        note: "Containerized the FastAPI services at Radius Hire, so they run the same locally as they do on AWS.",
+        note: "Containerized the FastAPI services at Radius Hire, so they run the same locally as they do on AWS. Before that, Docker Compose for the Flight Tracker so the frontend and backend came up with one command.",
+        projects: ["flight-tracker"],
       },
       {
         name: "AWS",
@@ -234,14 +235,19 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "GitHub Actions",
-        note: "The deploy pipeline for this site: lint, typecheck, build, sync to S3, then invalidate the CloudFront cache. It authenticates to AWS over OIDC, so there are no stored access keys.",
+        note: "The deploy pipeline for this site: lint, typecheck, build, sync to S3, then invalidate the CloudFront cache. It authenticates to AWS over OIDC, so there are no stored access keys. The Flight Tracker had the same idea on GitLab CI: build and test on every change, before code review.",
+        projects: ["flight-tracker"],
       },
       {
         name: "Node.js / React",
         note: "The Goal Planner's runtime under Next.js, and the platform I worked in at Radius Hire.",
         projects: ["goal-planner"],
       },
-      { name: "Java · Spring Boot" },
+      {
+        name: "Java · Spring Boot",
+        note: "The Flight Tracker backend: a Spring Boot REST service in front of the FlightAware and OpenSky APIs, with rate-limit handling so the UI gets a clear message rather than a failed request. Built with a six-person Scrum team where I was the primary developer.",
+        projects: ["flight-tracker"],
+      },
       { name: "Linux" },
     ],
   },

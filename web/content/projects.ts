@@ -196,6 +196,26 @@ export const PROJECTS: Project[] = [
     compact: true,
     sourceNote: "The repository is private because it's a course project.",
   },
+  {
+    slug: "flight-tracker",
+    name: "Flight Tracker",
+    designator: "M7",
+    year: "2024",
+    role: "Team of 6 · Scrum · primary developer",
+    summary:
+      "Real-time flight status web app built with a six-person Scrum team over four timed sprints, where I was the primary developer: the Spring Boot REST backend, the FlightAware and OpenSky API integrations with rate-limit handling, most of the Vite frontend, the Docker Compose setup, and the GitLab CI pipeline. The team reached 80% test coverage.",
+    body: [
+      "A web app that pulls live flight data and shows real-time flight status, built for a software engineering course with a six-person Scrum team over four timed sprints. I was the primary developer across the stack.",
+      "Backend and API integration: I built the Spring Boot REST backend and integrated the FlightAware and OpenSky live flight data APIs behind it. Rate limits on those APIs were the main failure mode, so I added handling for them and users see a clear message instead of a failed request.",
+      "Frontend: I built most of the Vite web frontend that displays real-time flight status from the backend.",
+      "Infrastructure: I containerized the frontend and backend with Docker Compose so the full app runs with one command, and set up the GitLab CI pipeline that builds and runs the test suite on every change.",
+      "How we worked: Agile/Scrum with user stories, a product backlog, and sprint planning. Every change went through code review on a feature branch. The team's test suite reached 80% code coverage, and it ran through the pipeline I built.",
+    ],
+    tags: ["Java", "Spring Boot", "REST", "FlightAware", "OpenSky", "Vite", "Docker Compose", "GitLab CI", "Scrum"],
+    links: [],
+    compact: true,
+    sourceNote: "The source was hosted on a university GitLab that is no longer accessible.",
+  },
 ];
 
 export const featuredProject = () => PROJECTS.find((p) => p.featured) ?? PROJECTS[0];

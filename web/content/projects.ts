@@ -127,7 +127,7 @@ export const PROJECTS: Project[] = [
       "Anthropic SDK", "TypeScript", "Next.js", "Prisma", "Zod",
       "Evals", "LLM-as-judge", "Observability", "Rate limiting", "Prompt injection", "Prompt caching",
     ],
-    image: "/assets/goal-planner-dashboard.png",
+    image: "/assets/goal-planner-dashboard-2.png",
     links: [
       { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
       // Deploy is pending. Add when it's up:

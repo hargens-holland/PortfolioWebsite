@@ -19,7 +19,7 @@ export const SITE = {
 export const LINKS = {
   github: "https://github.com/hargens-holland",
   /** Fill in and it appears in the footer automatically. */
-  linkedin: "https://www.linkedin.com/in/holland-hargens-879796299/",
+  linkedin: "https://www.linkedin.com/in/holland-hargens/",
   resume: "/assets/resume.pdf",
 } as const;
 

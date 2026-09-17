@@ -55,14 +55,21 @@ export const WORK: Role[] = [
   {
     period: "2026 — Present",
     role: "Software Engineer",
-    org: "Radius Hire",
+    org: "Radius Signal",
     detail:
       "Remote, shipping features across Radius Hire, Radius Find, and Compañero, a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built the second-round interview scheduling flow on the WhatsApp Business API in FastAPI: it parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Built a messaging service that unifies several third-party messaging APIs behind one interface, a placement-offer module with DocuSign e-signature integrated, and a video pipeline that compresses uploads client-side and serves each company its own intro video. Tested the Gemini candidate-screening workflow and found and fixed bugs in it, and review code across the team's pull requests. Currently working on Radius Talent, the job-seeker side of the platform, where the evaluation and testing are mine to build.",
   },
   {
+    period: "2023 — 2026",
+    role: "AI Model Analyst",
+    org: "Outlier · Freelance",
+    detail:
+      "Evaluated AI-generated code and reasoning across Python, Java, and math tasks for correctness and edge cases, and wrote the structured feedback used to improve model response quality. Two and a half years of grading model output by hand, which is where the instinct for building evals came from.",
+  },
+  {
     period: "Summer 2025",
-    role: "ML & Software Engineering Intern",
-    org: "Veridis Technologies · Amsterdam",
+    role: "ML Intern",
+    org: "Veridis · Amsterdam",
     detail:
       "Designed the preprocessing pipeline for 23-channel time-series sensor data — feature extraction and normalization across validation splits — then trained and benchmarked PyTorch and TensorFlow regression and classification models on it, reaching ~7% RMSE on polymer blend estimation. Tracked and compared 20+ experiment configurations in MLflow.",
   },
@@ -187,7 +194,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Hire I tested the Gemini-backed candidate screening workflow, found bugs in it, and fixed them; the evaluation and testing for Radius Talent, the product I'm on now, are mine to build. The Goal Planner is where I've already built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
+        note: "At Radius Signal I tested the Gemini-backed candidate screening workflow, found bugs in it, and fixed them; the evaluation and testing for Radius Talent, the product I'm on now, are mine to build. The Goal Planner is where I've already built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
         projects: ["goal-planner"],
       },
       {
@@ -231,7 +238,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "FastAPI",
-        note: "The second-round interview scheduling service at Radius Hire: a FastAPI service on the WhatsApp Business API that parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Also the messaging service that fronts several third-party messaging APIs.",
+        note: "The second-round interview scheduling service at Radius Signal: a FastAPI service on the WhatsApp Business API that parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Also the messaging service that fronts several third-party messaging APIs.",
       },
       {
         name: "PostgreSQL · Prisma",
@@ -240,12 +247,12 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Docker",
-        note: "Containerized the FastAPI services at Radius Hire, so they run the same locally as they do on AWS. Before that, Docker Compose for the Flight Tracker so the frontend and backend came up with one command.",
+        note: "Containerized the FastAPI services at Radius Signal, so they run the same locally as they do on AWS. Before that, Docker Compose for the Flight Tracker so the frontend and backend came up with one command.",
         projects: ["flight-tracker"],
       },
       {
         name: "AWS",
-        note: "Containerized services at Radius Hire, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
+        note: "Containerized services at Radius Signal, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
       },
       {
         name: "GitHub Actions",
@@ -254,7 +261,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Node.js / React",
-        note: "The Goal Planner's runtime under Next.js, and the Radius Hire platform, where the placement-offer module with DocuSign and the per-company intro video pipeline live.",
+        note: "The Goal Planner's runtime under Next.js, and the Radius Signal platform, where the placement-offer module with DocuSign and the per-company intro video pipeline live.",
         projects: ["goal-planner"],
       },
       {

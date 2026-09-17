@@ -54,7 +54,7 @@ export type Role = {
 export const WORK: Role[] = [
   {
     period: "2026 — Present",
-    role: "Software Engineer",
+    role: "Software & AI Engineer",
     org: "Radius Signal",
     detail:
       "Remote, shipping features across Radius Hire, Radius Find, and Compañero, a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built the second-round interview scheduling flow on the WhatsApp Business API in FastAPI: it parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Built a messaging service that unifies several third-party messaging APIs behind one interface, a placement-offer module with DocuSign e-signature integrated, and a video pipeline that compresses uploads client-side and serves each company its own intro video. Tested the Gemini candidate-screening workflow and found and fixed bugs in it, and review code across the team's pull requests. Currently working on Radius Talent, the job-seeker side of the platform, where the evaluation and testing are mine to build.",

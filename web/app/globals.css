@@ -359,6 +359,9 @@ a:hover { color: #fff; }
 .more__tag--lock { border: 1px dashed var(--line-strong); background: transparent; color: var(--text-mute); }
 .more__cta { font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--accent-light); }
 .more__row:hover .more__cta { text-decoration: underline; text-underline-offset: 3px; }
+.more__row--thumb { grid-template-columns: 150px 160px 1fr auto; }
+.more__thumb { position: relative; display: block; aspect-ratio: 4 / 3; border: 1px solid var(--line); background: var(--strip); overflow: hidden; }
+.more__thumb img { object-fit: cover; }
 
 /* --------------------------------------------------- project page ------- */
 
@@ -369,6 +372,13 @@ a:hover { color: #fff; }
 .project__title { margin-top: 14px; font-size: 52px; line-height: 1.04; font-weight: 700; letter-spacing: -.03em; color: var(--text-bright); }
 .project__meta { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--text-mute); }
 .project__frame { margin-top: 34px; border: 1px solid var(--line); }
+.project__frame--video { background: #000; }
+.project__video { display: block; width: 100%; max-height: 70vh; }
+.project__caption { padding: 10px 14px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; color: var(--text-mute); }
+.project__related { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; max-width: 760px; margin: 28px auto 0; font-size: 14px; }
+.project__related-label { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-mute); }
+.project__related a { color: var(--accent-light); }
+.project__related a:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* Below the banner, everything sits in one centred reading column: the
    banner and title span the page, the writeup doesn't need to. */
 .project__body, .project__tags, .project__links, .project__none { max-width: 760px; margin-left: auto; margin-right: auto; }
@@ -565,7 +575,8 @@ a:hover { color: #fff; }
   .hero, .section, .project { padding-left: 20px; padding-right: 20px; }
 
   .hero__grid, .about__grid, .card__split, .work__row, .work__row--three, .entry, .contact__grid { grid-template-columns: 1fr; }
-  .more__row { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
+  .more__row, .more__row--thumb { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
+  .more__thumb { max-width: 240px; }
   .more__id { flex-direction: row; gap: 10px; }
   .hero__grid { gap: 36px; align-items: start; }
   .hero__photo { max-width: 300px; }

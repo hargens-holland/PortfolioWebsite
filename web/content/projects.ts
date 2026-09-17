@@ -41,6 +41,17 @@ export type Project = {
    * page just skips the banner.
    */
   image?: string;
+  /** Caption under the banner on the project page, e.g. who made the image. */
+  imageCaption?: string;
+  /**
+   * Video under /public, e.g. "/assets/whack-a-mole.mp4". Shown on the project
+   * page in place of the banner, with `image` as its poster frame. Dropped at
+   * build time if the file isn't there yet. Keep it small: it's served from
+   * the same bucket as everything else.
+   */
+  video?: string;
+  /** Slugs of projects worth reading alongside this one. */
+  related?: string[];
   links: ProjectLink[];
   /**
    * Course projects without a screenshot don't get a card. Set this and the
@@ -76,6 +87,7 @@ export const PROJECTS: Project[] = [
     ],
     tags: ["SystemVerilog", "Vivado", "AXI4-Lite", "Zynq UltraScale+", "PYNQ", "Python", "OpenCV", "TFLite", "Vitis AI"],
     image: "/assets/flex-pga-demo.jpg",
+    related: ["mlp-vlsi"],
     links: [
       { label: "Source", href: "https://github.com/hargens-holland/WorkoutClassificationTracker" },
       // Local files only show once they exist in public/ — see the note on ProjectLink.
@@ -88,14 +100,14 @@ export const PROJECTS: Project[] = [
     name: "EEG Seizure Detection",
     designator: "M2",
     year: "2026",
-    role: "ECE 539 team project · 2D CNN + evaluation",
+    role: "ECE 539 team project · 2D CNN + evaluation study",
     summary:
-      "Seizure detection from raw EEG with 1D and 2D CNNs. The first run hit 99.6% accuracy and caught zero seizures, so the project became a study of evaluating under severe imbalance: sensitivity over accuracy, leak-free recording-level splits, and a false-alarm budget. Rerun in progress.",
+      "Seizure detection from raw EEG with 1D and 2D CNNs, and what the numbers actually meant: every model hit 99.6% accuracy while catching zero seizures. The project became an evaluation study under severe class imbalance. Key finding: accuracy misleads, and a random window split quietly inflates everything else too.",
     body: [
       "Seizure detection from raw 23-channel scalp EEG in the CHB-MIT database, for ECE 539 (Neural Networks) at UW–Madison. An end-to-end pipeline runs from EDF ingestion through annotation-based labels and feeds five models identical 4-second windows: three classical baselines, a 1D CNN on the raw signal, and a 2D CNN on STFT spectrograms.",
-      "In the first run, every model scored over 99.6% accuracy while catching zero seizures, because seizures make up under 5% of a recording. Sensitivity exposed the problem, and AUC suggested the CNNs had learned to rank seizure windows above background. At the time, the conclusion was that the failure was the decision threshold, not the model.",
-      "Revisiting the project later, I found two deeper problems. A labeling bug was under-counting seizure windows by about 10×. And the random window split let overlapping windows share signal across train and test, which inflated AUC to 0.98–0.999. Together they mean every number from that first run, the 99.6% included, has to be redone.",
-      "The rebuilt evaluation uses recording-level splits, so no recording contributes to both sides, and thresholds chosen on validation data against a false-alarm budget rather than the default 0.5. That's the operating point a clinician would actually care about: how many seizures are caught at how many false alarms per hour. The rerun on that protocol is in progress; results will go here when it's done.",
+      "Every model scored over 99.6% accuracy while catching zero seizures, because seizures make up under 5% of a recording. Sensitivity exposed the problem, and AUC suggested the CNNs had learned to rank seizure windows above background. At the time, the conclusion was that the failure was the decision threshold, not the model.",
+      "Revisiting the project later, I found two deeper problems. A labeling bug was under-counting seizure windows by about 10×. And the random window split let overlapping windows share signal across train and test, which inflated AUC to 0.98–0.999. Together they mean the headline numbers, the 99.6% included, measured leakage as much as they measured the models.",
+      "The corrected protocol uses recording-level splits, so no recording contributes to both sides, and thresholds chosen on validation data against a false-alarm budget rather than the default 0.5. That's the operating point a clinician would actually care about: how many seizures are caught at how many false alarms per hour. The lasting takeaway is the evaluation, not the models: under this kind of imbalance, accuracy says nothing, and the split has to respect where the data came from before any other number can be trusted.",
       "My part: the 2D CNN and its spectrogram pipeline, the evaluation protocol, and the two bug fixes.",
     ],
     tags: ["Python", "PyTorch", "MNE", "scikit-learn", "STFT", "CHB-MIT"],
@@ -215,6 +227,50 @@ export const PROJECTS: Project[] = [
     links: [],
     compact: true,
     sourceNote: "The source was hosted on a university GitLab that is no longer accessible.",
+  },
+  {
+    slug: "whack-a-mole-pcb",
+    name: "Whack-a-Mole PCB",
+    designator: "M8",
+    year: "2025",
+    role: "Solo · course project",
+    summary:
+      "A whack-a-mole game on a custom PCB I laid out in Altium from a provided schematic, had fabricated, and hand-assembled. An Arduino Nano runs the firmware for the LEDs, buttons, and buzzer. Bring-up exposed a schematic error, fixed on the board by cutting one connection and jumpering two points, plus a solder joint that needed rework.",
+    body: [
+      "An individual project covering the whole path from schematic to a working board. The professor provided the schematic; I did the board layout in Altium, ordered fabrication, soldered and assembled the board, and wrote the microcontroller firmware.",
+      "The hardware is an Arduino Nano, which also supplies board power, plus LEDs, buttons, and a buzzer. No display. The firmware controls the LEDs, reads the buttons, and drives the buzzer for the game.",
+      "Bring-up is where it got interesting. The provided schematic had an error, which I fixed on the assembled board by breaking one connection and shorting two points together with a jumper. One solder joint was too weak and had to be reworked. The video shows the finished board running.",
+    ],
+    tags: ["Altium", "PCB Layout", "Soldering", "Board Bring-Up", "Arduino", "C++"],
+    // Poster frame for the video, and the row thumbnail. Add both files to public/assets.
+    image: "/assets/whack-a-mole-board.jpg",
+    video: "/assets/whack-a-mole.mp4",
+    links: [],
+    compact: true,
+    sourceNote: "The repository is private because it's a course project.",
+  },
+  {
+    slug: "mlp-vlsi",
+    name: "MLP Classifier in Full-Custom VLSI",
+    designator: "M9",
+    year: "2025",
+    role: "Team of 4 · ECE 555",
+    summary:
+      "A three-neuron multilayer perceptron that classifies sit vs. run from accelerometer and stretch-sensor inputs, built at the transistor level in Cadence Virtuoso. Inputs are 2-bit and the weights are fixed, so multiplication reduces to shifts and two's complement, and each neuron's ReLU is a mux on the sign bit. Laid out as a bit-slice datapath on an 11.88 µm pitch with a three-metal power grid. I laid out the ReLU multiplexer cell and helped integrate the cells into the full design.",
+    body: [
+      "A small neural network built as full-custom silicon for ECE 555 (VLSI) at UW–Madison, with a team of four. Two inputs, an accelerometer and a stretch sensor, feed two hidden neurons and one output neuron, and the network classifies sit versus run. Each neuron is a multiply-accumulate unit followed by a ReLU activation. Inputs are 2-bit unsigned; the weights are fixed 2-bit signed values hardcoded into the design.",
+      "There is no general multiplier. Because the weights are fixed, multiplication reduces to shifts and two's complement, and 4-bit adders sum the products and the bias. ReLU is a mux that selects either zero or the sum based on the sign bit.",
+      "The layout is full-custom cells in Cadence Virtuoso, arranged as a bit-slice datapath on a required 11.88 µm pitch. Power runs as M1 rails along each slice, M2 straps across them, and M3 VDD and VSS delivery per slice.",
+      "The team verified each block and then the full design DRC and LVS clean, ran parasitic extraction on both, and simulated post-layout.",
+      "My part: I laid out the ReLU multiplexer cell and helped wire the cells into the full perceptron. It makes a neat pair with the Flex-PGA capstone: both are hardware activity classifiers, one in custom silicon and one in an FPGA's fabric.",
+    ],
+    tags: ["Cadence Virtuoso", "Full-Custom Layout", "DRC/LVS", "Parasitic Extraction", "CMOS", "Bit-Slice Datapath"],
+    image: "/assets/mlp-vlsi-top-level-layout.png",
+    imageCaption: "Team top-level layout",
+    related: ["flex-pga"],
+    links: [],
+    compact: true,
+    sourceNote: "The repository is private because it's a course project.",
   },
 ];
 

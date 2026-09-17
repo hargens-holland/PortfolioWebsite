@@ -43,6 +43,11 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   // Site-relative links point at files in public/; keep only the ones that exist.
   const links = project.links.filter((link) => !link.href.startsWith("/") || publicAsset(link.href));
 
+  const poster = publicAsset(project.image);
+  const video = publicAsset(project.video);
+  // Unknown slugs drop out rather than linking to a 404.
+  const related = project.related?.map(findProject).filter((p) => p !== undefined) ?? [];
+
   const index = PROJECTS.findIndex((p) => p.slug === project.slug);
   const previous = PROJECTS[index - 1];
   const next = PROJECTS[index + 1];
@@ -65,12 +70,23 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </div>
       </header>
 
-      {/* Only with a real screenshot — a placeholder this large would just be
-          a hole between the title and the writeup. */}
-      {publicAsset(project.image) && (
-        <div className="project__frame">
-          <ProjectShot project={project} variant="banner" />
-        </div>
+      {/* A video takes the banner slot, with the screenshot as its poster
+          frame. Only with a real file either way — a placeholder this large
+          would just be a hole between the title and the writeup. */}
+      {video ? (
+        <figure className="project__frame project__frame--video">
+          <video className="project__video" controls playsInline preload="metadata" poster={poster} src={video}>
+            Your browser can&apos;t play this video. <a href={video}>Download it</a> instead.
+          </video>
+          {project.imageCaption && <figcaption className="project__caption">{project.imageCaption}</figcaption>}
+        </figure>
+      ) : (
+        poster && (
+          <figure className="project__frame">
+            <ProjectShot project={project} variant="banner" />
+            {project.imageCaption && <figcaption className="project__caption">{project.imageCaption}</figcaption>}
+          </figure>
+        )
       )}
 
       <div className="project__body">
@@ -110,6 +126,17 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             email me
           </a>
           .
+        </p>
+      )}
+
+      {related.length > 0 && (
+        <p className="project__related">
+          <span className="project__related-label">See also</span>
+          {related.map((r) => (
+            <Link key={r.slug} href={`/projects/${r.slug}`}>
+              {r.name} →
+            </Link>
+          ))}
         </p>
       )}
 

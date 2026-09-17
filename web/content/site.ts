@@ -19,7 +19,7 @@ export const SITE = {
 export const LINKS = {
   github: "https://github.com/hargens-holland",
   /** Fill in and it appears in the footer automatically. */
-  linkedin: "https://www.linkedin.com/in/holland-hargens",
+  linkedin: "https://www.linkedin.com/in/holland-hargens-879796299/",
   resume: "/assets/resume.pdf",
 } as const;
 
@@ -34,7 +34,12 @@ export const HERO = {
   badge: "Open to new grad roles · 2026",
   intro:
     ", a computer engineering graduate from UW–Madison. I work across the stack: FPGA bring-up and bare-metal firmware on one end, ML pipelines and LLM-backed services on the other.",
-  roles: ["embedded systems.", "ML pipelines.", "backend services.", "LLM tooling."],
+  roles: [
+    "a three-agent LLM planner with its own eval harness.",
+    "interview scheduling on the WhatsApp Business API.",
+    "on-device pose classification on a Zynq FPGA.",
+    "a 13-task FreeRTOS game on a PSoC 6.",
+  ],
   chips: ["Embedded C / C++", "Python · PyTorch", "RTL & FPGA", "Newton, MA"],
   photoCaption: "Newton, MA — 2026",
 } as const;
@@ -49,10 +54,10 @@ export type Role = {
 export const WORK: Role[] = [
   {
     period: "2026 — Present",
-    role: "Software & AI Engineer",
+    role: "Software Engineer",
     org: "Radius Hire",
     detail:
-      "Remote contract role shipping features across Radius Hire, Radius Find, and Compañero. Built an automated interview-scheduling flow in FastAPI on the WhatsApp Business API, an AI-driven video screening pipeline with client-side compression and cloud storage, and maintained the Gemini-integrated candidate screening workflow on a Node.js/TypeScript and Next.js platform — all containerized with Docker on AWS.",
+      "Remote, shipping features across Radius Hire, Radius Find, and Compañero, a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built the second-round interview scheduling flow on the WhatsApp Business API in FastAPI: it parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Built a messaging service that unifies several third-party messaging APIs behind one interface, a placement-offer module with DocuSign e-signature integrated, and a video pipeline that compresses uploads client-side and serves each company its own intro video. Tested the Gemini candidate-screening workflow and found and fixed bugs in it, and review code across the team's pull requests. Currently working on Radius Talent, the job-seeker side of the platform, where the evaluation and testing are mine to build.",
   },
   {
     period: "Summer 2025",
@@ -142,7 +147,16 @@ export const SKILLS: SkillGroup[] = [
         note: "How the capstone's Python side talks to the fabric: loading the overlay, mapping the MLP peripheral's registers, and driving inference from the same script that runs the camera.",
         projects: ["flex-pga"],
       },
-      { name: "Altium PCB Design" },
+      {
+        name: "Altium PCB Design",
+        note: "The Whack-a-Mole board: layout in Altium from a provided schematic, fabrication, hand assembly, and bring-up, which turned up a schematic error I fixed on the board with a cut trace and a jumper.",
+        projects: ["whack-a-mole-pcb"],
+      },
+      {
+        name: "Cadence Virtuoso",
+        note: "Full-custom layout for the ECE 555 MLP classifier: a ReLU multiplexer cell on the team's 11.88 µm bit-slice pitch, integrated into the datapath and verified DRC and LVS clean with parasitic extraction.",
+        projects: ["mlp-vlsi"],
+      },
       {
         name: "FreeRTOS",
         note: "Thirteen tasks on the PSoC 6: one per Blackjack game state, one gatekeeper per peripheral, wired together with task notifications, an event group, queues that carry their own reply-queue handles, and a binary semaphore around the game struct. Built in ModusToolbox with GCC ARM.",
@@ -173,7 +187,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Hire I built a Gemini-backed candidate screening workflow and the evaluation around it, checking output quality systematically instead of spot-checking by hand. The Goal Planner runs three Claude agents on the Anthropic SDK, with structured outputs constrained to Zod schemas and typed fallbacks so the app never fails because the model did.",
+        note: "At Radius Hire I tested the Gemini-backed candidate screening workflow, found bugs in it, and fixed them; the evaluation and testing for Radius Talent, the product I'm on now, are mine to build. The Goal Planner is where I've already built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
         projects: ["goal-planner"],
       },
       {
@@ -217,7 +231,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "FastAPI",
-        note: "The interview-scheduling service at Radius Hire, which runs on the WhatsApp Business API, and the other FastAPI services there.",
+        note: "The second-round interview scheduling service at Radius Hire: a FastAPI service on the WhatsApp Business API that parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Also the messaging service that fronts several third-party messaging APIs.",
       },
       {
         name: "PostgreSQL · Prisma",
@@ -240,7 +254,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Node.js / React",
-        note: "The Goal Planner's runtime under Next.js, and the platform I worked in at Radius Hire.",
+        note: "The Goal Planner's runtime under Next.js, and the Radius Hire platform, where the placement-offer module with DocuSign and the per-company intro video pipeline live.",
         projects: ["goal-planner"],
       },
       {

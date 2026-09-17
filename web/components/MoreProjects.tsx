@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects";
+import { publicAsset } from "@/lib/assets";
 
 /**
  * The collapsed list under the project cards: course projects that don't
@@ -24,36 +26,52 @@ export function MoreProjects({ projects }: { projects: Project[] }) {
       </summary>
 
       <ul className="more__list">
-        {projects.map((project) => (
-          <li key={project.slug}>
-            <Link className="more__row" href={`/projects/${project.slug}`}>
-              <span className="more__id">
-                <span className="card__designator">{project.designator}</span>
-                <span>{project.slug}</span>
-              </span>
+        {projects.map((project) => {
+          const thumb = publicAsset(project.image);
+          return (
+            <li key={project.slug}>
+              <Link
+                className={`more__row${thumb ? " more__row--thumb" : ""}`}
+                href={`/projects/${project.slug}`}
+              >
+                <span className="more__id">
+                  <span className="card__designator">{project.designator}</span>
+                  <span>{project.slug}</span>
+                </span>
 
-              <span className="more__body">
-                <span className="more__head">
-                  <h3 className="more__title">{project.name}</h3>
-                  <span className="more__meta">
-                    {project.year} · {project.role}
+                {thumb && (
+                  <span className="more__thumb">
+                    <Image src={thumb} alt="" fill sizes="160px" />
+                  </span>
+                )}
+
+                <span className="more__body">
+                  <span className="more__head">
+                    <h3 className="more__title">{project.name}</h3>
+                    <span className="more__meta">
+                      {project.year} · {project.role}
+                    </span>
+                  </span>
+                  <span className="more__blurb">{project.summary}</span>
+                  <span className="more__tags">
+                    {project.tags.map((tag) => (
+                      <span className="more__tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                    {project.links.length === 0 && (
+                      <span className="more__tag more__tag--lock">
+                        private repo
+                      </span>
+                    )}
                   </span>
                 </span>
-                <span className="more__blurb">{project.summary}</span>
-                <span className="more__tags">
-                  {project.tags.map((tag) => (
-                    <span className="more__tag" key={tag}>
-                      {tag}
-                    </span>
-                  ))}
-                  {project.links.length === 0 && <span className="more__tag more__tag--lock">private repo</span>}
-                </span>
-              </span>
 
-              <span className="more__cta">Details →</span>
-            </Link>
-          </li>
-        ))}
+                <span className="more__cta">Details →</span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </details>
   );

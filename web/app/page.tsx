@@ -41,7 +41,7 @@ export default function HomePage() {
             </p>
 
             <p className="hero__building">
-              Currently building <RoleRotator roles={HERO.roles} />
+              Recent work: <RoleRotator roles={HERO.roles} />
             </p>
 
             <div className="hero__actions">

@@ -60,11 +60,11 @@ export const WORK: Role[] = [
       "Remote, shipping features across Radius Hire, Radius Find, and Compañero, a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built the second-round interview scheduling flow on the WhatsApp Business API in FastAPI: it parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Built a messaging service that unifies several third-party messaging APIs behind one interface, a placement-offer module with DocuSign e-signature integrated, and a video pipeline that compresses uploads client-side and serves each company its own intro video. Tested the Gemini candidate-screening workflow and found and fixed bugs in it, and review code across the team's pull requests. Currently working on Radius Talent, the job-seeker side of the platform, where the evaluation and testing are mine to build.",
   },
   {
-    period: "2023 — 2026",
+    period: "2023 — 2025",
     role: "AI Model Analyst",
-    org: "Outlier · Freelance",
+    org: "Outlier",
     detail:
-      "Evaluated AI-generated code and reasoning across Python, Java, and math tasks for correctness and edge cases, and wrote the structured feedback used to improve model response quality. Two and a half years of grading model output by hand, which is where the instinct for building evals came from.",
+      "Evaluated AI model responses against per-project rubrics across Python, Java, and math projects, rating them for correctness and writing the justification behind each rating.",
   },
   {
     period: "Summer 2025",

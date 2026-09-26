@@ -64,7 +64,7 @@ export const WORK: Role[] = [
     role: "AI Model Analyst",
     org: "Outlier",
     detail:
-      "Evaluated AI model responses against per-project rubrics across Python, Java, and math projects, rating them for correctness and writing the justification behind each rating.",
+      "Rated AI model responses against per-project rubrics and wrote the justification behind each rating. Projects ranged from general writing and reasoning quality to Python, Java, and math.",
   },
   {
     period: "Summer 2025",

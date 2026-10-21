@@ -55,9 +55,9 @@ export const WORK: Role[] = [
   {
     period: "2026 — Present",
     role: "Software & AI Engineer",
-    org: "Radius Signal",
+    org: "Radius Hire",
     detail:
-      "Remote, shipping features across Radius Hire, Radius Find, and Compañero, a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built the second-round interview scheduling flow on the WhatsApp Business API in FastAPI: it parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Built a messaging service that unifies several third-party messaging APIs behind one interface, a placement-offer module with DocuSign e-signature integrated, and a video pipeline that compresses uploads client-side and serves each company its own intro video. Tested the Gemini candidate-screening workflow and found and fixed bugs in it, and review code across the team's pull requests. Currently working on Radius Talent, the job-seeker side of the platform, where the evaluation and testing are mine to build.",
+      "Remote, on a Node.js/TypeScript and Next.js platform containerized with Docker on AWS. Built a production messaging service that unifies WhatsApp (Meta Cloud API), Twilio, and Mailgun behind one interface, now consumed by five products across the platform: a deliberate reusable design rather than integrating every provider per product. Replaced a manual recruiter scheduling loop with a webhook-triggered FastAPI service on the WhatsApp Business API: the slot offer goes out, the candidate books from a link that shows only open slots, and the confirmed interview is written to the calendar with slot locking. Shipped a placement-offer module with DocuSign e-signature integration and a client-side-compressed video pipeline. Tested the Gemini-backed candidate screening workflow end to end, triaging model failure modes and reporting the bugs found, and review pull requests across the team. Rewrote the Radius Talent backend, the job-seeker side of the platform, and connected it to the core platform backend, working across the stack including the front end.",
   },
   {
     period: "2023 — 2025",
@@ -71,7 +71,7 @@ export const WORK: Role[] = [
     role: "ML Intern",
     org: "Veridis · Amsterdam",
     detail:
-      "Designed the preprocessing pipeline for 23-channel time-series sensor data — feature extraction and normalization across validation splits — then trained and benchmarked PyTorch and TensorFlow regression and classification models on it, reaching ~7% RMSE on polymer blend estimation. Tracked and compared 20+ experiment configurations in MLflow.",
+      "Built a pytest-covered preprocessing pipeline for 23-channel time-series sensor data, standardizing feature extraction and normalization across validation splits, then trained and benchmarked PyTorch and TensorFlow regression and classification models on it, reaching ~7% RMSE on polymer blend estimation. Tracked and compared 20+ experiment configurations in MLflow.",
   },
 ];
 
@@ -136,7 +136,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Vivado",
-        note: "Block design and IP integration on the AUP-ZU3 for the capstone: the DPU build that routed and closed timing but consumed the whole device, and the custom MLP peripheral that replaced it. Most of the work is reading the reports after a build, not the build itself.",
+        note: "Block design and IP integration on the AUP-ZU3 for the capstone, including a separate Vitis AI DPU prototype I cut to B512 to fit the ZU3, with the PL clock set to 200 MHz against what the application needed and timing closed at that target. Most of the work is reading the reports after a build, not the build itself.",
         projects: ["flex-pga"],
       },
       {
@@ -161,7 +161,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Cadence Virtuoso",
-        note: "Full-custom layout for the ECE 555 MLP classifier: a ReLU multiplexer cell on the team's 11.88 µm bit-slice pitch, integrated into the datapath and verified DRC and LVS clean with parasitic extraction.",
+        note: "Full-custom layout for the ECE 555 perceptron classifier: a ReLU multiplexer cell on the team's 11.88 µm bit-slice pitch, integrated into the datapath and verified DRC and LVS clean with parasitic extraction.",
         projects: ["mlp-vlsi"],
       },
       {
@@ -194,7 +194,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Signal I tested the Gemini-backed candidate screening workflow, found bugs in it, and fixed them; the evaluation and testing for Radius Talent, the product I'm on now, are mine to build. The Goal Planner is where I've already built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
+        note: "At Radius Hire I tested the Gemini-backed candidate screening workflow end to end, triaging model failure modes and reporting the bugs I found. The Goal Planner is where I've built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
         projects: ["goal-planner"],
       },
       {
@@ -214,7 +214,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Vitis AI / VART",
-        note: "The runtime for the DPU integration attempt on the capstone. I built the camera → shared-memory → VART inference path on the processing-system side before the team moved pose estimation off the fabric.",
+        note: "A capstone prototype kept separate from the shipped pipeline: a DPUCZDX8G build in Vivado, cut to B512 to fit the ZU3 and closed at a 200 MHz PL clock. The system we demoed runs pose estimation through TFLite on the ARM cores instead.",
         projects: ["flex-pga"],
       },
       {
@@ -230,15 +230,17 @@ export const SKILLS: SkillGroup[] = [
       {
         name: "TypeScript",
         note: "This site, end to end. The projects and skills you're reading are typed data in one folder, so adding either one is a data change rather than a template change.",
+        projects: ["hollandhargens-com"],
       },
       {
         name: "Next.js",
         note: "The Goal Planner is a full Next.js 14 app with Postgres behind it. This site is the other kind — exported to static HTML, which is why it can sit in an S3 bucket behind a CDN with no server to keep running.",
-        projects: ["goal-planner"],
+        projects: ["goal-planner", "hollandhargens-com"],
       },
       {
         name: "FastAPI",
-        note: "The second-round interview scheduling service at Radius Signal: a FastAPI service on the WhatsApp Business API that parses candidate replies, proposes slots, and writes confirmed interviews to the calendar. Also the messaging service that fronts several third-party messaging APIs.",
+        note: "The interview scheduling service at Radius Hire: a webhook-triggered FastAPI service on the WhatsApp Business API that replaced a manual recruiter scheduling loop, offering slots, letting the candidate book from a link that shows only open slots, and writing the confirmed interview to the calendar with slot locking. Also the serving layer for the EEG seizure model, in Docker.",
+        projects: ["eeg-seizure-detection"],
       },
       {
         name: "PostgreSQL · Prisma",
@@ -247,21 +249,22 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "Docker",
-        note: "Containerized the FastAPI services at Radius Signal, so they run the same locally as they do on AWS. Before that, Docker Compose for the Flight Tracker so the frontend and backend came up with one command.",
+        note: "Containerized the FastAPI services at Radius Hire, so they run the same locally as they do on AWS. Before that, Docker Compose for the Flight Tracker so the frontend and backend came up with one command.",
         projects: ["flight-tracker"],
       },
       {
         name: "AWS",
-        note: "Containerized services at Radius Signal, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
+        note: "Containerized services at Radius Hire, and this site — S3, CloudFront, and Route 53, with an OIDC role for CI, all defined in Terraform.",
+        projects: ["hollandhargens-com"],
       },
       {
         name: "GitHub Actions",
         note: "The deploy pipeline for this site: lint, typecheck, build, sync to S3, then invalidate the CloudFront cache. It authenticates to AWS over OIDC, so there are no stored access keys. The Flight Tracker had the same idea on GitLab CI: build and test on every change, before code review.",
-        projects: ["flight-tracker"],
+        projects: ["hollandhargens-com", "flight-tracker"],
       },
       {
         name: "Node.js / React",
-        note: "The Goal Planner's runtime under Next.js, and the Radius Signal platform, where the placement-offer module with DocuSign and the per-company intro video pipeline live.",
+        note: "The Goal Planner's runtime under Next.js, and the Radius Hire platform, where the placement-offer module with DocuSign and the client-side-compressed video pipeline live.",
         projects: ["goal-planner"],
       },
       {

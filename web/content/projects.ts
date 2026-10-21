@@ -113,7 +113,7 @@ export const PROJECTS: Project[] = [
     tags: ["Python", "PyTorch", "MNE", "scikit-learn", "STFT", "CHB-MIT", "FastAPI", "Docker"],
     image: "/assets/eeg-seizure-traces.jpg",
     links: [
-      // { label: "Source", href: "https://github.com/hargens-holland/…" },
+      { label: "Source", href: "https://github.com/hargens-holland/EEGSeizureDetectionModel" },
     ],
   },
   {
@@ -159,13 +159,11 @@ export const PROJECTS: Project[] = [
     ],
     image: "/assets/goal-planner-dashboard-2.png",
     links: [
-      // The repo is private while it's under active work; restore when it's public.
-      // { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
+      { label: "Source", href: "https://github.com/hargens-holland/GoalApp" },
+      { label: "Architecture", href: "https://github.com/hargens-holland/GoalApp/blob/main/docs/ARCHITECTURE.md" },
       // Deploy is pending. Add when it's up:
       // { label: "Live demo", href: "https://…" },
-      // { label: "Architecture", href: "https://github.com/hargens-holland/GoalApp/blob/main/docs/ARCHITECTURE.md" },
     ],
-    sourceNote: "The repository is private while I'm still actively working on it.",
   },
   {
     slug: "ebike-controller",

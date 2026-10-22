@@ -35,7 +35,7 @@ export const HERO = {
   intro:
     ", a computer engineering graduate from UW–Madison. I work across the stack: FPGA bring-up and bare-metal firmware on one end, ML pipelines and LLM-backed services on the other.",
   roles: [
-    "a three-agent LLM planner with its own eval harness.",
+    "a four-agent LLM planner with its own eval harness.",
     "interview scheduling on the WhatsApp Business API.",
     "on-device pose classification on a Zynq FPGA.",
     "a 13-task FreeRTOS game on a PSoC 6.",
@@ -194,7 +194,7 @@ export const SKILLS: SkillGroup[] = [
       },
       {
         name: "LLM integration & eval",
-        note: "At Radius Hire I tested the Gemini-backed candidate screening workflow end to end, triaging model failure modes and reporting the bugs I found. The Goal Planner is where I've built that side end to end: three Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
+        note: "At Radius Hire I tested the Gemini-backed candidate screening workflow end to end, triaging model failure modes and reporting the bugs I found. The Goal Planner is where I've built that side end to end: four Claude agents on the Anthropic SDK, structured outputs constrained to Zod schemas, typed fallbacks so the app never fails because the model did, and an eval harness with an LLM judge that decides which model each agent runs on.",
         projects: ["goal-planner"],
       },
       {
